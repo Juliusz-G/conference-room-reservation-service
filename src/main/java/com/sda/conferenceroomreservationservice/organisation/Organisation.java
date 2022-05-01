@@ -1,15 +1,14 @@
 package com.sda.conferenceroomreservationservice.organisation;
 
+import com.sda.conferenceroomreservationservice.conferenceroom.ConferenceRoom;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -27,4 +26,7 @@ public class Organisation {
 
     @NotBlank(message = "Organisation description can not be blank or empty")
     private String description;
+
+    @OneToMany(mappedBy = "organisation", cascade = CascadeType.REMOVE)
+    private List<ConferenceRoom> conferenceRooms;
 }
