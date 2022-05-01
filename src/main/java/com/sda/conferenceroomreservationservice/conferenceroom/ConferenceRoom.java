@@ -16,7 +16,7 @@ public class ConferenceRoom {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
 
     @NotNull
     @NotBlank
