@@ -1,17 +1,17 @@
 package com.sda.conferenceroomreservationservice.organisation;
 
-import com.sda.conferenceroomreservationservice.GenericRepository;
-import com.sda.conferenceroomreservationservice.GenericServiceImpl;
+import com.sda.conferenceroomreservationservice.generics.genericservice.GenericServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrganisationService extends GenericServiceImpl<Organisation> {
 
     @Autowired
-    public OrganisationService(GenericRepository<Organisation> repository) {
+    public OrganisationService(OrganisationRepository repository) {
         super(repository);
     }
 
@@ -31,13 +31,18 @@ public class OrganisationService extends GenericServiceImpl<Organisation> {
     }
 
     @Override
-    public void update(Organisation entity) {
-        super.update(entity);
+    public Organisation update(Organisation entity) {
+        return super.update(entity);
     }
 
     @Override
-    public Organisation getById(Long id) {
+    public Optional<Organisation> getById(Long id) {
         return super.getById(id);
+    }
+
+    @Override
+    public Optional<Organisation> getByName(String name) {
+        return super.getByName(name);
     }
 
     @Override

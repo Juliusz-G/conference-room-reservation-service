@@ -1,6 +1,6 @@
 package com.sda.conferenceroomreservationservice.reservation;
 
-import com.sda.conferenceroomreservationservice.GenericRepository;
+import com.sda.conferenceroomreservationservice.generics.genericrepository.GenericRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository

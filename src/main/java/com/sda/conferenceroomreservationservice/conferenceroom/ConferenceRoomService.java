@@ -1,17 +1,17 @@
 package com.sda.conferenceroomreservationservice.conferenceroom;
 
-import com.sda.conferenceroomreservationservice.GenericRepository;
-import com.sda.conferenceroomreservationservice.GenericServiceImpl;
+import com.sda.conferenceroomreservationservice.generics.genericservice.GenericServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ConferenceRoomService extends GenericServiceImpl<ConferenceRoom> {
 
     @Autowired
-    public ConferenceRoomService(GenericRepository<ConferenceRoom> repository) {
+    public ConferenceRoomService(ConferenceRoomRepository repository) {
         super(repository);
     }
 
@@ -31,13 +31,18 @@ public class ConferenceRoomService extends GenericServiceImpl<ConferenceRoom> {
     }
 
     @Override
-    public void update(ConferenceRoom entity) {
-        super.update(entity);
+    public ConferenceRoom update(ConferenceRoom entity) {
+        return super.update(entity);
     }
 
     @Override
-    public ConferenceRoom getById(Long id) {
+    public Optional<ConferenceRoom> getById(Long id) {
         return super.getById(id);
+    }
+
+    @Override
+    public Optional<ConferenceRoom> getByName(String name) {
+        return super.getByName(name);
     }
 
     @Override

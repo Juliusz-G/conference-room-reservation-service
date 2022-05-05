@@ -1,12 +1,14 @@
-package com.sda.conferenceroomreservationservice;
+package com.sda.conferenceroomreservationservice.generics.genericservice;
 
+import com.sda.conferenceroomreservationservice.generics.genericrepository.GenericRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
-public class GenericServiceImpl<T> implements GenericService<T> {
+public abstract class GenericServiceImpl<T> implements GenericService<T> {
 
     private final GenericRepository<T> repository;
 
@@ -31,13 +33,18 @@ public class GenericServiceImpl<T> implements GenericService<T> {
     }
 
     @Override
-    public void update(T entity) {
-        repository.save(entity);
+    public T update(T entity) {
+        return repository.save(entity);
     }
 
     @Override
-    public T getById(Long id) {
-        return (T) repository.findById(id);
+    public Optional<T> getById(Long id) {
+        return repository.findById(id);
+    }
+
+    @Override
+    public Optional<T> getByName(String name) {
+        return repository.findByName(name);
     }
 
     @Override
