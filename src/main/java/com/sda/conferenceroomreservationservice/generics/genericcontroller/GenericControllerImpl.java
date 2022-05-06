@@ -10,6 +10,8 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
+// The Cross-Origin Resource Sharing (CORS) is a relevant specification with the emergence of HTML5 and JS clients
+// that consume data via REST APIs.
 @CrossOrigin(origins = "http://localhost:4200")
 @Component
 public abstract class GenericControllerImpl<T> implements GenericController<T> {
