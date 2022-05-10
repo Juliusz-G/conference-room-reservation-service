@@ -1,4 +1,4 @@
-package com.sda.conferenceroomreservationservice.generics.genericcontroller;
+package com.sda.conferenceroomreservationservice.controller;
 
 import org.springframework.http.ResponseEntity;
 
@@ -9,9 +9,9 @@ public interface GenericController<T> {
 
     ResponseEntity<T> create(T entity);
 
-    void remove(T entity);
+    ResponseEntity<T> remove(T entity);
 
-    void removeById(Long id);
+    ResponseEntity<T> removeById(Long id);
 
     ResponseEntity<T> update(T entity);
 

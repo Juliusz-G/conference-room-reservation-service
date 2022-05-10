@@ -1,14 +1,14 @@
-package com.sda.conferenceroomreservationservice.reservation;
+package com.sda.conferenceroomreservationservice.model.entity;
 
-import com.sda.conferenceroomreservationservice.conferenceroom.ConferenceRoom;
-import com.sda.conferenceroomreservationservice.organisation.Organisation;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 
+@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

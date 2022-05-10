@@ -1,6 +1,6 @@
-package com.sda.conferenceroomreservationservice.generics.genericcontroller;
+package com.sda.conferenceroomreservationservice.controller;
 
-import com.sda.conferenceroomreservationservice.generics.genericservice.GenericServiceImpl;
+import com.sda.conferenceroomreservationservice.service.GenericServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -10,10 +10,8 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
-// The Cross-Origin Resource Sharing (CORS) is a relevant specification with the emergence of HTML5 and JS clients
-// that consume data via REST APIs.
-@CrossOrigin(origins = "http://localhost:4200")
-@Component
+// @CrossOrigin(origins = "http://localhost:4200") can be used instead of WebConfiguration file...
+
 public abstract class GenericControllerImpl<T> implements GenericController<T> {
 
     private final GenericServiceImpl<T> service;
@@ -31,14 +29,16 @@ public abstract class GenericControllerImpl<T> implements GenericController<T> {
 
     @Override
     @DeleteMapping("/delete")
-    public void remove(@Valid T entity) {
+    public ResponseEntity<T> remove(@Valid T entity) {
         service.remove(entity);
+        return ResponseEntity.noContent().build();
     }
 
     @Override
     @DeleteMapping("/delete/{id}")
-    public void removeById(@PathVariable Long id) {
+    public ResponseEntity<T> removeById(@PathVariable Long id) {
         service.removeById(id);
+        return ResponseEntity.noContent().build();
     }
 
     @Override

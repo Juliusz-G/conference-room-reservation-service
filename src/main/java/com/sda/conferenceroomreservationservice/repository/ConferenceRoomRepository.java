@@ -1,6 +1,6 @@
-package com.sda.conferenceroomreservationservice.conferenceroom;
+package com.sda.conferenceroomreservationservice.repository;
 
-import com.sda.conferenceroomreservationservice.generics.genericrepository.GenericRepository;
+import com.sda.conferenceroomreservationservice.model.entity.ConferenceRoom;
 import org.springframework.stereotype.Repository;
 
 // Spring Repository annotation is a specialization of @Component annotation,

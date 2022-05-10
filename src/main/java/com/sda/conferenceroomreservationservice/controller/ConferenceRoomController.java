@@ -1,6 +1,7 @@
-package com.sda.conferenceroomreservationservice.conferenceroom;
+package com.sda.conferenceroomreservationservice.controller;
 
-import com.sda.conferenceroomreservationservice.generics.genericcontroller.GenericControllerImpl;
+import com.sda.conferenceroomreservationservice.service.ConferenceRoomService;
+import com.sda.conferenceroomreservationservice.model.entity.ConferenceRoom;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,13 +28,15 @@ public class ConferenceRoomController extends GenericControllerImpl<ConferenceRo
     }
 
     @Override
-    public void remove(ConferenceRoom entity) {
+    public ResponseEntity<ConferenceRoom> remove(ConferenceRoom entity) {
         super.remove(entity);
+        return ResponseEntity.noContent().build();
     }
 
     @Override
-    public void removeById(Long id) {
+    public ResponseEntity<ConferenceRoom> removeById(Long id) {
         super.removeById(id);
+        return ResponseEntity.noContent().build();
     }
 
     @Override

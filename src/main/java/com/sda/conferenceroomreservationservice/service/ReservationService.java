@@ -1,6 +1,7 @@
-package com.sda.conferenceroomreservationservice.reservation;
+package com.sda.conferenceroomreservationservice.service;
 
-import com.sda.conferenceroomreservationservice.generics.genericservice.GenericServiceImpl;
+import com.sda.conferenceroomreservationservice.model.entity.Reservation;
+import com.sda.conferenceroomreservationservice.repository.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,37 +12,37 @@ import java.util.Optional;
 public class ReservationService extends GenericServiceImpl<Reservation> {
 
     @Autowired
-    public ReservationService(ReservationRepository repository) {
+    public ReservationService(final ReservationRepository repository) {
         super(repository);
     }
 
     @Override
-    public Reservation create(Reservation entity) {
+    public Reservation create(final Reservation entity) {
         return super.create(entity);
     }
 
     @Override
-    public void remove(Reservation entity) {
+    public void remove(final Reservation entity) {
         super.remove(entity);
     }
 
     @Override
-    public void removeById(Long id) {
+    public void removeById(final Long id) {
         super.removeById(id);
     }
 
     @Override
-    public Reservation update(Reservation entity) {
+    public Reservation update(final Reservation entity) {
         return super.update(entity);
     }
 
     @Override
-    public Optional<Reservation> getById(Long id) {
+    public Optional<Reservation> getById(final Long id) {
         return super.getById(id);
     }
 
     @Override
-    public Optional<Reservation> getByName(String name) {
+    public Optional<Reservation> getByName(final String name) {
         return super.getByName(name);
     }
 

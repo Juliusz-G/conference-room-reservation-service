@@ -1,6 +1,8 @@
-package com.sda.conferenceroomreservationservice.conferenceroom;
+package com.sda.conferenceroomreservationservice.model.entity;
 
+import com.sda.conferenceroomreservationservice.constraints.UniqueConferenceRoomName;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.*;
 
+@Builder
 @Data // generates toString, equals and hashCode, getters, setters and required args constructor
 @NoArgsConstructor // generates no args constructor
 @AllArgsConstructor // generates all args constructor
@@ -24,6 +27,7 @@ public class ConferenceRoom {
     @NotBlank(message = "Conference room name can not be blank or empty")
     // validate the size of a field, makes the bean independent of JPA and its vendors such as Hibernate
     @Size(min = 2, max = 20, message = "Conference room name must be between 2 - 20 characters long")
+    // @UniqueConferenceRoomName(message = "Conference room name have to be unique") TODO: Throws error
     private String name;
 
     // field is only valid when it matches a certain regular expression

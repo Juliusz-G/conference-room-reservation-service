@@ -1,6 +1,7 @@
-package com.sda.conferenceroomreservationservice.conferenceroom;
+package com.sda.conferenceroomreservationservice.service;
 
-import com.sda.conferenceroomreservationservice.generics.genericservice.GenericServiceImpl;
+import com.sda.conferenceroomreservationservice.model.entity.ConferenceRoom;
+import com.sda.conferenceroomreservationservice.repository.ConferenceRoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,37 +13,37 @@ import java.util.Optional;
 public class ConferenceRoomService extends GenericServiceImpl<ConferenceRoom> {
 
     @Autowired
-    public ConferenceRoomService(ConferenceRoomRepository repository) {
+    public ConferenceRoomService(final ConferenceRoomRepository repository) {
         super(repository);
     }
 
     @Override
-    public ConferenceRoom create(ConferenceRoom entity) {
+    public ConferenceRoom create(final ConferenceRoom entity) {
         return super.create(entity);
     }
 
     @Override
-    public void remove(ConferenceRoom entity) {
+    public void remove(final ConferenceRoom entity) {
         super.remove(entity);
     }
 
     @Override
-    public void removeById(Long id) {
+    public void removeById(final Long id) {
         super.removeById(id);
     }
 
     @Override
-    public ConferenceRoom update(ConferenceRoom entity) {
+    public ConferenceRoom update(final ConferenceRoom entity) {
         return super.update(entity);
     }
 
     @Override
-    public Optional<ConferenceRoom> getById(Long id) {
+    public Optional<ConferenceRoom> getById(final Long id) {
         return super.getById(id);
     }
 
     @Override
-    public Optional<ConferenceRoom> getByName(String name) {
+    public Optional<ConferenceRoom> getByName(final String name) {
         return super.getByName(name);
     }
 

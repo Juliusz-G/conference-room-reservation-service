@@ -1,6 +1,7 @@
-package com.sda.conferenceroomreservationservice.organisation;
+package com.sda.conferenceroomreservationservice.service;
 
-import com.sda.conferenceroomreservationservice.generics.genericservice.GenericServiceImpl;
+import com.sda.conferenceroomreservationservice.model.entity.Organisation;
+import com.sda.conferenceroomreservationservice.repository.OrganisationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,37 +12,37 @@ import java.util.Optional;
 public class OrganisationService extends GenericServiceImpl<Organisation> {
 
     @Autowired
-    public OrganisationService(OrganisationRepository repository) {
+    public OrganisationService(final OrganisationRepository repository) {
         super(repository);
     }
 
     @Override
-    public Organisation create(Organisation entity) {
+    public Organisation create(final Organisation entity) {
         return super.create(entity);
     }
 
     @Override
-    public void remove(Organisation entity) {
+    public void remove(final Organisation entity) {
         super.remove(entity);
     }
 
     @Override
-    public void removeById(Long id) {
+    public void removeById(final Long id) {
         super.removeById(id);
     }
 
     @Override
-    public Organisation update(Organisation entity) {
+    public Organisation update(final Organisation entity) {
         return super.update(entity);
     }
 
     @Override
-    public Optional<Organisation> getById(Long id) {
+    public Optional<Organisation> getById(final Long id) {
         return super.getById(id);
     }
 
     @Override
-    public Optional<Organisation> getByName(String name) {
+    public Optional<Organisation> getByName(final String name) {
         return super.getByName(name);
     }
 
