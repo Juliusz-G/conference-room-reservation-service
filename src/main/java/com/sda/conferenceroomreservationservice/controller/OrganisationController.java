@@ -1,5 +1,6 @@
 package com.sda.conferenceroomreservationservice.controller;
 
+import com.sda.conferenceroomreservationservice.model.dto.OrganisationDto;
 import com.sda.conferenceroomreservationservice.model.entity.Organisation;
 import com.sda.conferenceroomreservationservice.service.OrganisationService;
 import org.springframework.http.ResponseEntity;
@@ -11,46 +12,39 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/organisation")
-public class OrganisationController extends GenericControllerImpl<Organisation> {
+public class OrganisationController{
 
     public OrganisationController(OrganisationService service) {
         super(service);
     }
 
-    @Override
-    public ResponseEntity<Organisation> create(Organisation entity) {
+    public ResponseEntity<OrganisationDto> create(OrganisationDto entity) {
         return super.create(entity);
     }
 
-    @Override
-    public ResponseEntity<Organisation> remove(Organisation entity) {
+    public ResponseEntity<OrganisationDto> remove(OrganisationDto entity) {
         super.remove(entity);
         return ResponseEntity.noContent().build();
     }
 
-    @Override
-    public ResponseEntity<Organisation> removeById(Long id) {
+    public ResponseEntity<OrganisationDto> removeById(Long id) {
         super.removeById(id);
         return ResponseEntity.noContent().build();
     }
 
-    @Override
-    public ResponseEntity<Organisation> update(Organisation entity) {
+    public ResponseEntity<OrganisationDto> update(OrganisationDto entity) {
         return super.update(entity);
     }
 
-    @Override
-    public ResponseEntity<Optional<Organisation>> getById(Long id) {
+    public ResponseEntity<Optional<OrganisationDto>> getById(Long id) {
         return super.getById(id);
     }
 
-    @Override
-    public ResponseEntity<Optional<Organisation>> getByName(String name) {
+    public ResponseEntity<Optional<OrganisationDto>> getByName(String name) {
         return super.getByName(name);
     }
 
-    @Override
-    public ResponseEntity<List<Organisation>> getAll() {
+    public ResponseEntity<List<OrganisationDto>> getAll() {
         return super.getAll();
     }
 }

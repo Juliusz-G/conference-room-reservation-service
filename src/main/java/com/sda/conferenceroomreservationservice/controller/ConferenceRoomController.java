@@ -16,45 +16,38 @@ import java.util.Optional;
 @RestController
 // the class-level annotation maps a specific request path or pattern onto a controller
 @RequestMapping("/conference-room")
-public class ConferenceRoomController extends GenericControllerImpl<ConferenceRoom> {
+public class ConferenceRoomController {
 
     public ConferenceRoomController(ConferenceRoomService service) {
         super(service);
     }
 
-    @Override
     public ResponseEntity<ConferenceRoom> create(ConferenceRoom entity) {
         return super.create(entity);
     }
 
-    @Override
     public ResponseEntity<ConferenceRoom> remove(ConferenceRoom entity) {
         super.remove(entity);
         return ResponseEntity.noContent().build();
     }
 
-    @Override
     public ResponseEntity<ConferenceRoom> removeById(Long id) {
         super.removeById(id);
         return ResponseEntity.noContent().build();
     }
 
-    @Override
     public ResponseEntity<ConferenceRoom> update(ConferenceRoom entity) {
         return super.update(entity);
     }
 
-    @Override
     public ResponseEntity<Optional<ConferenceRoom>> getById(Long id) {
         return super.getById(id);
     }
 
-    @Override
     public ResponseEntity<Optional<ConferenceRoom>> getByName(String name) {
         return super.getByName(name);
     }
 
-    @Override
     public ResponseEntity<List<ConferenceRoom>> getAll() {
         return super.getAll();
     }
