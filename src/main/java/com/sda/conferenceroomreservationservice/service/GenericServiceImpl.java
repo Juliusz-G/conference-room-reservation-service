@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Optional;
 
-
+@Component
 public abstract class GenericServiceImpl<T> implements GenericService<T> {
 
     private final GenericRepository<T> repository;

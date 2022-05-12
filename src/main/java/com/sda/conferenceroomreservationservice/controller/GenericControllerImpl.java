@@ -3,7 +3,6 @@ package com.sda.conferenceroomreservationservice.controller;
 import com.sda.conferenceroomreservationservice.service.GenericServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -11,7 +10,6 @@ import java.util.List;
 import java.util.Optional;
 
 // @CrossOrigin(origins = "http://localhost:4200") can be used instead of WebConfiguration file...
-
 public abstract class GenericControllerImpl<T> implements GenericController<T> {
 
     private final GenericServiceImpl<T> service;
