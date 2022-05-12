@@ -1,8 +1,8 @@
 package com.sda.conferenceroomreservationservice.controller;
 
 import com.sda.conferenceroomreservationservice.model.dto.OrganisationDto;
-import com.sda.conferenceroomreservationservice.model.entity.Organisation;
 import com.sda.conferenceroomreservationservice.service.OrganisationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,39 +12,40 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/organisation")
-public class OrganisationController{
+public class OrganisationController {
 
-    public OrganisationController(OrganisationService service) {
-        super(service);
+    private final OrganisationService organisationService;
+
+    @Autowired
+    public OrganisationController(OrganisationService organisationService) {
+        this.organisationService = organisationService;
     }
 
-    public ResponseEntity<OrganisationDto> create(OrganisationDto entity) {
-        return super.create(entity);
-    }
-
-    public ResponseEntity<OrganisationDto> remove(OrganisationDto entity) {
-        super.remove(entity);
+    public ResponseEntity<OrganisationDto> create() {
         return ResponseEntity.noContent().build();
     }
 
-    public ResponseEntity<OrganisationDto> removeById(Long id) {
-        super.removeById(id);
+    public ResponseEntity<OrganisationDto> remove() {
         return ResponseEntity.noContent().build();
     }
 
-    public ResponseEntity<OrganisationDto> update(OrganisationDto entity) {
-        return super.update(entity);
+    public ResponseEntity<OrganisationDto> removeById() {
+        return ResponseEntity.noContent().build();
     }
 
-    public ResponseEntity<Optional<OrganisationDto>> getById(Long id) {
-        return super.getById(id);
+    public ResponseEntity<OrganisationDto> update() {
+        return ResponseEntity.noContent().build();
     }
 
-    public ResponseEntity<Optional<OrganisationDto>> getByName(String name) {
-        return super.getByName(name);
+    public ResponseEntity<Optional<OrganisationDto>> getById() {
+        return ResponseEntity.noContent().build();
+    }
+
+    public ResponseEntity<Optional<OrganisationDto>> getByName() {
+        return ResponseEntity.noContent().build();
     }
 
     public ResponseEntity<List<OrganisationDto>> getAll() {
-        return super.getAll();
+        return ResponseEntity.noContent().build();
     }
 }

@@ -1,7 +1,8 @@
 package com.sda.conferenceroomreservationservice.controller;
 
-import com.sda.conferenceroomreservationservice.model.entity.Reservation;
+import com.sda.conferenceroomreservationservice.model.dto.ReservationDto;
 import com.sda.conferenceroomreservationservice.service.ReservationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,34 +14,35 @@ import java.util.Optional;
 @RequestMapping("/reservation")
 public class ReservationController {
 
-    public ReservationController(ReservationService service) {
-        super(service);
+    private final ReservationService reservationService;
+
+    @Autowired
+    public ReservationController(ReservationService reservationService) {
+        this.reservationService = reservationService;
     }
 
-    public ResponseEntity<Reservation> create(Reservation entity) {
-        return super.create(entity);
-    }
-
-    public ResponseEntity<Reservation> remove(Reservation entity) {
-        super.remove(entity);
+    public ResponseEntity<ReservationDto> create() {
         return ResponseEntity.noContent().build();
     }
 
-    public ResponseEntity<Reservation> removeById(Long id) {
-        super.removeById(id);
+    public ResponseEntity<ReservationDto> remove() {
         return ResponseEntity.noContent().build();
     }
 
-    public ResponseEntity<Reservation> update(Reservation entity) {
-        return super.update(entity);
+    public ResponseEntity<ReservationDto> removeById() {
+        return ResponseEntity.noContent().build();
     }
 
-    public ResponseEntity<Optional<Reservation>> getById(Long id) {
-        return super.getById(id);
+    public ResponseEntity<ReservationDto> update() {
+        return ResponseEntity.noContent().build();
+    }
+
+    public ResponseEntity<Optional<ReservationDto>> getById() {
+        return ResponseEntity.noContent().build();
     }
 
 
-    public ResponseEntity<List<Reservation>> getAll() {
-        return super.getAll();
+    public ResponseEntity<List<ReservationDto>> getAll() {
+        return ResponseEntity.noContent().build();
     }
 }
