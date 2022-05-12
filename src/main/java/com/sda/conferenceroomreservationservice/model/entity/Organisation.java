@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Builder
 @Data
@@ -29,4 +30,7 @@ public class Organisation {
 
     @NotEmpty(message = "Organisation description can not be blank or empty")
     private String description;
+
+    @OneToMany
+    private List<ConferenceRoom> rooms;
 }
