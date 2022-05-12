@@ -18,4 +18,18 @@ public class ConferenceRoomMapper {
                 .organisation(conferenceRoom.getOrganisation())
                 .build();
     }
+
+    public static ConferenceRoom map(final ConferenceRoomDto conferenceRoomDto) {
+        return ConferenceRoom.builder()
+                .id(conferenceRoomDto.getId())
+                .name(conferenceRoomDto.getName())
+                .identifier(conferenceRoomDto.getIdentifier())
+                .level(conferenceRoomDto.getLevel())
+                .availability(conferenceRoomDto.getAvailability())
+                .numberOfStandingPlaces(conferenceRoomDto.getNumberOfStandingPlaces())
+                .numberOfSittingPlaces(conferenceRoomDto.getNumberOfSittingPlaces())
+                .reservationList(conferenceRoomDto.getReservationList())
+                .organisation(conferenceRoomDto.getOrganisation())
+                .build();
+    }
 }
