@@ -12,7 +12,10 @@ public class ConferenceRoomMapper {
                 .identifier(conferenceRoom.getIdentifier())
                 .level(conferenceRoom.getLevel())
                 .availability(conferenceRoom.getAvailability())
-                .numberOfPlaces(conferenceRoom.getNumberOfPlaces())
+                .numberOfStandingPlaces(conferenceRoom.getNumberOfStandingPlaces())
+                .numberOfSittingPlaces(conferenceRoom.getNumberOfSittingPlaces())
+                .reservationList(conferenceRoom.getReservationList())
+                .organisation(conferenceRoom.getOrganisation())
                 .build();
     }
 }

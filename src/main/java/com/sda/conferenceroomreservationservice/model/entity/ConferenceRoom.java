@@ -6,42 +6,51 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.List;
 
 @Builder
-@Data // generates toString, equals and hashCode, getters, setters and required args constructor
-@NoArgsConstructor // generates no args constructor
-@AllArgsConstructor // generates all args constructor
-@Entity // tells JPA that it's entity (POJO representing data that can be persisted to the DB)
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
 public class ConferenceRoom {
 
-    @Id // marks a field in a model class as the primary key
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // It relies on an auto-incremented database column
+    private static final Integer MIN_FLOOR_LEVEL = 0;
+    private static final Integer MAX_FLOOR_LEVEL = 10;
+    private static final Integer MIN_NAME_LENGTH = 2;
+    private static final Integer MAX_NAME_LENGTH = 20;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    // must be not null, and the trimmed length must be greater than zero
-    @NotBlank(message = "Conference room name can not be blank or empty")
-    // validate the size of a field, makes the bean independent of JPA and its vendors such as Hibernate
-    @Size(min = 2, max = 20, message = "Conference room name must be between 2 - 20 characters long")
-    // @UniqueConferenceRoomName(message = "Conference room name have to be unique") TODO: Throws error
+    @NotBlank(message = "Name can not be blank or empty")
+    @Size(min = MIN_NAME_LENGTH, max = MAX_NAME_LENGTH,
+            message = "Name must be between 2 - 20 characters long")
+    @UniqueConferenceRoomName(message = "Name have to be unique")
     private String name;
 
-    // field is only valid when it matches a certain regular expression
     @Pattern(regexp = "\\d[.]\\d\\d",
-            message = "Conference room identifier have to match following format: [0-9].[0-9][0-9]")
+            message = "Identifier have to match format: [0-9].[0-9][0-9]")
     private String identifier;
 
-    @Min(value = 0) // validates that the annotated property has a value no smaller than the value attribute
-    @Max(value = 10) // validates that the annotated property has a value no larger than the value attribute
+    @Min(value = MIN_FLOOR_LEVEL, message = "Minimum floor level is 0")
+    @Max(value = MAX_FLOOR_LEVEL, message = "Maximum floor level is 10")
     private Integer level;
 
     private Boolean availability;
 
-    // validate that the value is strictly positive
-    @Positive(message = "Conference room number of places have to a positive integer")
-    private Integer numberOfPlaces;
+    @Positive(message = "Number of standing places is not positive")
+    private Integer numberOfStandingPlaces;
+
+    @Positive(message = "Number of sitting places is not positive")
+    private Integer numberOfSittingPlaces;
+
+    @OneToMany(cascade = CascadeType.REMOVE)
+    private List<Reservation> reservationList;
+
+    @ManyToOne(cascade = CascadeType.REMOVE)
+    private Organisation organisation;
 }
