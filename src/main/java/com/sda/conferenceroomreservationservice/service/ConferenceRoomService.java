@@ -47,8 +47,8 @@ public class ConferenceRoomService {
         return ConferenceRoomMapper.map(getConferenceRoomByIdFromDatabase(conferenceRoomId));
     }
 
-    public List<ConferenceRoomDto> getAll() {
-        return conferenceRoomRepository.findAll()
+    public List<ConferenceRoomDto> getAllByOrganisationId(final Long organisationId) {
+        return conferenceRoomRepository.findAllByOrganisationId(organisationId)
                 .stream()
                 .map(ConferenceRoomMapper::map)
                 .collect(Collectors.toList());
