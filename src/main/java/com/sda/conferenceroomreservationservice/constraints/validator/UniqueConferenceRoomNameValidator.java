@@ -1,7 +1,6 @@
 package com.sda.conferenceroomreservationservice.constraints.validator;
 
 import com.sda.conferenceroomreservationservice.constraints.UniqueConferenceRoomName;
-import com.sda.conferenceroomreservationservice.model.entity.ConferenceRoom;
 import com.sda.conferenceroomreservationservice.repository.ConferenceRoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
