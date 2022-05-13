@@ -1,6 +1,5 @@
 package com.sda.conferenceroomreservationservice.model.entity;
 
-import com.sda.conferenceroomreservationservice.constraints.UniqueConferenceRoomName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "identifier"})})
 public class ConferenceRoom {
 
     private static final int MIN_FLOOR_LEVEL = 0;
@@ -29,7 +29,7 @@ public class ConferenceRoom {
     @NotBlank(message = "Name can not be blank or empty")
     @Size(min = MIN_NAME_LENGTH, max = MAX_NAME_LENGTH,
             message = "Name must be between 2 - 20 characters long")
-    @UniqueConferenceRoomName(message = "Name have to be unique")
+    // @UniqueConferenceRoomName(message = "Name have to be unique")
     private String name;
 
     @Pattern(regexp = "\\d[.]\\d\\d",

@@ -27,7 +27,8 @@ public class ConferenceRoomService {
     }
 
     public void removeById(final Long conferenceRoomId) {
-        conferenceRoomRepository.deleteById(conferenceRoomId);
+        final ConferenceRoom conferenceRoom = getConferenceRoomByIdFromDatabase(conferenceRoomId);
+        conferenceRoomRepository.deleteById(conferenceRoom.getId());
     }
 
     public ConferenceRoomDto update(final Long conferenceRoomId, final ConferenceRoom conferenceRoomFromRequest) {
