@@ -2,7 +2,9 @@ package com.sda.conferenceroomreservationservice.mapper;
 
 import com.sda.conferenceroomreservationservice.model.dto.OrganisationDto;
 import com.sda.conferenceroomreservationservice.model.entity.Organisation;
+import org.springframework.stereotype.Component;
 
+@Component
 public class OrganisationMapper {
     public OrganisationDto map(Organisation organisation) {
         return OrganisationDto.builder()

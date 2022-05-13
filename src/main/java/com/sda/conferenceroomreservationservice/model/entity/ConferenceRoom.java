@@ -17,10 +17,10 @@ import java.util.List;
 @Entity
 public class ConferenceRoom {
 
-    private static final Integer MIN_FLOOR_LEVEL = 0;
-    private static final Integer MAX_FLOOR_LEVEL = 10;
-    private static final Integer MIN_NAME_LENGTH = 2;
-    private static final Integer MAX_NAME_LENGTH = 20;
+    private static final int MIN_FLOOR_LEVEL = 0;
+    private static final int MAX_FLOOR_LEVEL = 10;
+    private static final int MIN_NAME_LENGTH = 2;
+    private static final int MAX_NAME_LENGTH = 20;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
