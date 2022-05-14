@@ -6,28 +6,27 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table
 public class Reservation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+//    @NotEmpty(message = "Date and time of start reservation can not be blank or empty.")
+    private LocalDateTime startDateTime;
 
-    private Timestamp start;
-
-    private Timestamp end;
+//    @NotEmpty(message = "Date and time of start reservation can not be blank or empty.")
+    private LocalDateTime endDateTime;
 
     @ManyToOne(cascade = CascadeType.REMOVE)
     private ConferenceRoom conferenceRoom;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
-    private Organisation organisation;
 }
