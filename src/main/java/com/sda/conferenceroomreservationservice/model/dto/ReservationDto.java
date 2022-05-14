@@ -1,13 +1,12 @@
 package com.sda.conferenceroomreservationservice.model.dto;
 
 import com.sda.conferenceroomreservationservice.model.entity.ConferenceRoom;
-import com.sda.conferenceroomreservationservice.model.entity.Organisation;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Getter
 @Builder
@@ -15,9 +14,7 @@ import java.sql.Timestamp;
 public class ReservationDto {
 
     private final Long id;
-    private final String name;
-    private final Timestamp start;
-    private final Timestamp end;
+    private final LocalDateTime startDateTime;
+    private final LocalDateTime endDateTime;
     private final ConferenceRoom conferenceRoom;
-    private final Organisation organisation;
 }
