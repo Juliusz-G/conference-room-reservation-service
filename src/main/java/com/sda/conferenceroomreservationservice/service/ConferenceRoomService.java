@@ -31,13 +31,8 @@ public class ConferenceRoomService {
         conferenceRoomRepository.delete(conferenceRoom);
     }
 
-    public void removeById(final Long conferenceRoomId) {
-        final ConferenceRoom conferenceRoom = getConferenceRoomByIdFromDatabase(conferenceRoomId);
-        conferenceRoomRepository.deleteById(conferenceRoom.getId());
-    }
-
-    public ConferenceRoomDto update(final Long conferenceRoomId, final ConferenceRoom conferenceRoomFromRequest) {
-        final ConferenceRoom conferenceRoomFromDatabase = getConferenceRoomByIdFromDatabase(conferenceRoomId);
+    public ConferenceRoomDto update(final ConferenceRoom conferenceRoomFromRequest) {
+        final ConferenceRoom conferenceRoomFromDatabase = getConferenceRoomByIdFromDatabase(conferenceRoomFromRequest.getId());
         conferenceRoomFromDatabase.setName(conferenceRoomFromRequest.getName());
         conferenceRoomFromDatabase.setIdentifier(conferenceRoomFromRequest.getIdentifier());
         conferenceRoomFromDatabase.setLevel(conferenceRoomFromRequest.getLevel());
@@ -51,6 +46,13 @@ public class ConferenceRoomService {
 
     public ConferenceRoomDto getById(final Long conferenceRoomId) {
         return ConferenceRoomMapper.map(getConferenceRoomByIdFromDatabase(conferenceRoomId));
+    }
+
+    public List<ConferenceRoomDto> getAll() {
+        return conferenceRoomRepository.findAll()
+                .stream()
+                .map(ConferenceRoomMapper::map)
+                .collect(Collectors.toList());
     }
 
     public List<ConferenceRoomDto> getAllByOrganisationId(final Long organisationId) {

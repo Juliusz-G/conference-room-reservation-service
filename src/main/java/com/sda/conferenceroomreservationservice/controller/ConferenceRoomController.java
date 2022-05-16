@@ -31,18 +31,10 @@ public class ConferenceRoomController {
                 .build();
     }
 
-    @DeleteMapping("/delete/{conferenceRoomId}")
-    public ResponseEntity<ConferenceRoomDto> removeById(@PathVariable final Long conferenceRoomId) {
-        conferenceRoomService.removeById(conferenceRoomId);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT)
-                .build();
-    }
-
-    @PutMapping("/update/{conferenceRoomId}")
-    public ResponseEntity<ConferenceRoomDto> update(@PathVariable final Long conferenceRoomId,
-                                                    @RequestBody @Valid final ConferenceRoom conferenceRoom) {
+    @PutMapping("/update")
+    public ResponseEntity<ConferenceRoomDto> update(@RequestBody @Valid final ConferenceRoom conferenceRoom) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(conferenceRoomService.update(conferenceRoomId, conferenceRoom));
+                .body(conferenceRoomService.update(conferenceRoom));
     }
 
     @GetMapping("/get/{conferenceRoomId}")
@@ -51,7 +43,13 @@ public class ConferenceRoomController {
                 .body(conferenceRoomService.getById(conferenceRoomId));
     }
 
-    @GetMapping("/get/all-organisation/{organisationId}")
+    @GetMapping("/get/all")
+    public ResponseEntity<List<ConferenceRoomDto>> getAll() {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(conferenceRoomService.getAll());
+    }
+
+    @GetMapping("/get/all-for-organisation/{organisationId}")
     public ResponseEntity<List<ConferenceRoomDto>> getAllByOrganisationId(@PathVariable Long organisationId) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(conferenceRoomService.getAllByOrganisationId(organisationId));
