@@ -1,6 +1,7 @@
 package com.sda.conferenceroomreservationservice.controller;
 
 import com.sda.conferenceroomreservationservice.model.dto.ReservationDto;
+import com.sda.conferenceroomreservationservice.model.entity.Reservation;
 import com.sda.conferenceroomreservationservice.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,23 +29,22 @@ public class ReservationController {
     }
 
     @DeleteMapping("/remove/{reservationId}")
-    public ResponseEntity<Void> remove(@PathVariable("reservationId") final Long reservationId) {
+    public ResponseEntity<Void> removeById(@PathVariable("reservationId") final Long reservationId) {
         reservationService.removeById(reservationId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-
-    public ResponseEntity<ReservationDto> removeById() {
-        return ResponseEntity.noContent().build();
+    @PutMapping("/update/{reservationId}")
+    public ResponseEntity<ReservationDto> update(@PathVariable final Long reservationId,
+                                                 @RequestBody final Reservation reservation) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(reservationService.update(reservationId, reservation));
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<ReservationDto> update(ReservationDto reservationDto) {
-        return ResponseEntity.ok(reservationService.update(reservationDto));
-    }
-
-    public ResponseEntity<Optional<ReservationDto>> getById() {
-        return ResponseEntity.noContent().build();
+    @GetMapping("/get/{reservationId}")
+    public ResponseEntity<ReservationDto> getById(@PathVariable Long reservationId) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(reservationService.getById(reservationId));
     }
 
     @GetMapping("/all")
