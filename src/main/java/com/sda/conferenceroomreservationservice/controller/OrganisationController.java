@@ -3,9 +3,11 @@ package com.sda.conferenceroomreservationservice.controller;
 import com.sda.conferenceroomreservationservice.model.dto.OrganisationDto;
 import com.sda.conferenceroomreservationservice.service.OrganisationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,12 +23,14 @@ public class OrganisationController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<OrganisationDto> create(OrganisationDto organisationDto) {
-        return ResponseEntity.ok(organisationService.create(organisationDto));
+    public ResponseEntity<OrganisationDto> create(@RequestBody @Valid final OrganisationDto organisationDto) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(organisationService.create(organisationDto));
     }
 
+
     @DeleteMapping("/remove")
-    public ResponseEntity<OrganisationDto> remove(OrganisationDto organisationDto) {
+    public ResponseEntity<OrganisationDto> remove(@RequestBody @Valid final OrganisationDto organisationDto) {
         return ResponseEntity.ok(organisationService.remove(organisationDto));
     }
 
@@ -36,7 +40,7 @@ public class OrganisationController {
     }
 
     @GetMapping("/all/{name}")
-    public ResponseEntity<Optional<OrganisationDto>> getByName(@RequestParam String name) {
+    public ResponseEntity<OrganisationDto> getByName(@PathVariable String name) {
         return ResponseEntity.ok(organisationService.getByName(name));
     }
 
