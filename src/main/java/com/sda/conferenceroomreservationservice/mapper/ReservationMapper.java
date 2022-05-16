@@ -17,7 +17,7 @@ public class ReservationMapper {
                 .build();
     }
 
-    public Reservation map(ReservationDto reservationDto) {
+    public static Reservation map(ReservationDto reservationDto) {
         return Reservation.builder()
                 .id(reservationDto.getId())
                 .startDateTime(reservationDto.getStartDateTime())

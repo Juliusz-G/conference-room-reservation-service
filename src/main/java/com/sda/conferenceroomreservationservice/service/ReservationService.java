@@ -1,6 +1,8 @@
 package com.sda.conferenceroomreservationservice.service;
 
+import com.sda.conferenceroomreservationservice.mapper.ConferenceRoomMapper;
 import com.sda.conferenceroomreservationservice.mapper.ReservationMapper;
+import com.sda.conferenceroomreservationservice.model.dto.ConferenceRoomDto;
 import com.sda.conferenceroomreservationservice.model.dto.OrganisationDto;
 import com.sda.conferenceroomreservationservice.model.dto.ReservationDto;
 import com.sda.conferenceroomreservationservice.model.entity.Reservation;
@@ -37,14 +39,21 @@ public class ReservationService {
         return reservationFromDb.orElseThrow(/* EXCEPTION HERE */);
     }
 
-    public ReservationDto update(ReservationDto reservationDto) {
-        repository.save(reservationMapper.map(reservationDto));
-        return reservationDto;
+    public ReservationDto update(final Long reservationId, final Reservation reservationFromRequest) {
+        final Reservation reservationFromDb = getFromDbById(reservationId);
+        reservationFromDb.setStartDateTime(reservationFromRequest.getStartDateTime());
+        reservationFromDb.setEndDateTime(reservationFromRequest.getEndDateTime());
+        reservationFromDb.setConferenceRoom(reservationFromRequest.getConferenceRoom());
+        return reservationMapper.map(repository.save(reservationFromDb));
     }
 
     public List<ReservationDto> getAll() {
         return repository.findAll().stream()
                 .map(reservationMapper::map)
                 .collect(Collectors.toList());
+    }
+
+    public ReservationDto getById(final Long reservationId) {
+        return reservationMapper.map(getFromDbById(reservationId));
     }
 }
