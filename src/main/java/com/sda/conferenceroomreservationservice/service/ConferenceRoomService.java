@@ -1,5 +1,6 @@
 package com.sda.conferenceroomreservationservice.service;
 
+import com.sda.conferenceroomreservationservice.exception.type.conferenceroom.ConferenceRoomAlreadyExists;
 import com.sda.conferenceroomreservationservice.exception.type.conferenceroom.ConferenceRoomNotFoundException;
 import com.sda.conferenceroomreservationservice.mapper.ConferenceRoomMapper;
 import com.sda.conferenceroomreservationservice.model.dto.ConferenceRoomDto;
@@ -19,7 +20,11 @@ public class ConferenceRoomService {
     private final ConferenceRoomRepository conferenceRoomRepository;
 
     public ConferenceRoomDto create(final ConferenceRoom conferenceRoom) {
-        return ConferenceRoomMapper.map(conferenceRoomRepository.save(conferenceRoom));
+        if (ExistsByName(conferenceRoom.getName()) || ExistsByIdentifier(conferenceRoom.getIdentifier())) {
+            throw new ConferenceRoomAlreadyExists();
+        } else {
+            return ConferenceRoomMapper.map(conferenceRoomRepository.save(conferenceRoom));
+        }
     }
 
     public void remove(final ConferenceRoom conferenceRoom) {
@@ -58,5 +63,13 @@ public class ConferenceRoomService {
     private ConferenceRoom getConferenceRoomByIdFromDatabase(final Long conferenceRoomId) {
         final Optional<ConferenceRoom> conferenceRoomFromDatabase = conferenceRoomRepository.findById(conferenceRoomId);
         return conferenceRoomFromDatabase.orElseThrow(ConferenceRoomNotFoundException::new);
+    }
+
+    private boolean ExistsByName(final String conferenceRoomName) {
+        return conferenceRoomRepository.existsByName(conferenceRoomName);
+    }
+
+    private boolean ExistsByIdentifier(final String conferenceRoomName) {
+        return conferenceRoomRepository.existsByIdentifier(conferenceRoomName);
     }
 }
