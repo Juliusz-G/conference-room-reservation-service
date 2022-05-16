@@ -29,7 +29,6 @@ public class ConferenceRoom {
     @NotBlank(message = "Name can not be blank or empty")
     @Size(min = MIN_NAME_LENGTH, max = MAX_NAME_LENGTH,
             message = "Name must be between 2 - 20 characters long")
-    // @UniqueConferenceRoomName(message = "Name have to be unique")
     private String name;
 
     @Pattern(regexp = "\\d[.]\\d\\d",

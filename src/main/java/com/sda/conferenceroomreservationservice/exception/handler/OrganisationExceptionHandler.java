@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 
 @RestControllerAdvice
 public class OrganisationExceptionHandler {
@@ -17,8 +18,10 @@ public class OrganisationExceptionHandler {
     public Error handleOrganisationNotFoundException(final OrganisationNotFoundException exception) {
         return Error.builder()
                 .timestamp(LocalDateTime.now())
-                .message(exception.getMessage())
                 .httpCode(HttpStatus.NOT_FOUND.value())
+                .error(HttpStatus.NOT_FOUND.name())
+                .errorMessage(exception.getMessage())
+                .fieldErrors(Collections.emptyList())
                 .build();
     }
 }
