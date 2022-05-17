@@ -35,6 +35,12 @@ public class OrganisationService {
         return organisationDto;
     }
 
+    public OrganisationDto removeById(Long id) {
+        OrganisationDto organisationDto = organisationMapper.map(repository.findById(id).get());
+        repository.delete(organisationMapper.map(organisationDto));
+        return organisationDto;
+    }
+
     public OrganisationDto update(OrganisationDto organisationDto) {
         repository.save(organisationMapper.map(organisationDto));
         return organisationDto;

@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/organisation")
@@ -29,14 +28,17 @@ public class OrganisationController {
     }
 
 
-    @DeleteMapping("/remove")
-    public ResponseEntity<OrganisationDto> remove(@RequestBody @Valid final OrganisationDto organisationDto) {
-        return ResponseEntity.ok(organisationService.remove(organisationDto));
+    @DeleteMapping("/remove/{id}")
+    public ResponseEntity<OrganisationDto> remove(@PathVariable("id") Long id) {
+        organisationService.removeById(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                .build();
     }
 
     @PutMapping("/update")
     public ResponseEntity<OrganisationDto> update(OrganisationDto organisationDto) {
-        return ResponseEntity.ok(organisationService.update(organisationDto));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(organisationService.create(organisationDto));
     }
 
     @GetMapping("/all/{name}")

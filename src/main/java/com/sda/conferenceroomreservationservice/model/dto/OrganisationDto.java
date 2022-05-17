@@ -12,6 +12,7 @@ import java.util.List;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class OrganisationDto {
 
+    private final Long id;
     private final String name;
     private final String description;
     private final List<ConferenceRoomDto> rooms;
