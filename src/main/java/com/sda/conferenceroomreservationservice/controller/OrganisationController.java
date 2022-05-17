@@ -53,8 +53,8 @@ public class OrganisationController {
     @GetMapping("/all")
     public ResponseEntity<List<OrganisationDto>> getAll(Principal principal) {
         if(principal != null) {
-            //
+            return ResponseEntity.ok(organisationService.getAll(principal.getName()));
         }
-        return ResponseEntity.ok(organisationService.getAll(principal.getName()));
+        throw new OrganisationNotFoundException();
     }
 }

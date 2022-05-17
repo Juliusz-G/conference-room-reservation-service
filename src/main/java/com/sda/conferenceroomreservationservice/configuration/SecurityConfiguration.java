@@ -23,6 +23,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/swagger-ui/**").permitAll()
+                .antMatchers("/organisation/all").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
