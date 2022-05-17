@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -47,7 +48,10 @@ public class OrganisationController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<OrganisationDto>> getAll() {
-        return ResponseEntity.ok(organisationService.getAll());
+    public ResponseEntity<List<OrganisationDto>> getAll(Principal principal) {
+        if(principal != null) {
+            //
+        }
+        return ResponseEntity.ok(organisationService.getAll(principal.getName()));
     }
 }

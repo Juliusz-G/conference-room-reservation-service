@@ -1,13 +1,9 @@
 package com.sda.conferenceroomreservationservice.service;
 
-import com.sda.conferenceroomreservationservice.mapper.ConferenceRoomMapper;
 import com.sda.conferenceroomreservationservice.mapper.ReservationMapper;
-import com.sda.conferenceroomreservationservice.model.dto.ConferenceRoomDto;
-import com.sda.conferenceroomreservationservice.model.dto.OrganisationDto;
 import com.sda.conferenceroomreservationservice.model.dto.ReservationDto;
 import com.sda.conferenceroomreservationservice.model.entity.Reservation;
 import com.sda.conferenceroomreservationservice.repository.ReservationRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,7 +22,7 @@ public class ReservationService {
     }
 
     public ReservationDto create(ReservationDto reservationDto) {
-        repository.save(reservationMapper.map(reservationDto));
+        repository.save(ReservationMapper.map(reservationDto));
         return reservationDto;
     }
 
