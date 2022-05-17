@@ -31,4 +31,8 @@ public class Organisation {
 
     @OneToMany
     private List<ConferenceRoom> rooms;
+
+    @NotEmpty
+    @Size(min = 6, max = 20, message = "Password must be between 2 - 20 characters long")
+    private String password;
 }

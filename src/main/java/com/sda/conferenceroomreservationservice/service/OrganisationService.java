@@ -7,7 +7,6 @@ import com.sda.conferenceroomreservationservice.repository.OrganisationRepositor
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,11 +29,6 @@ public class OrganisationService {
         }
     }
 
-    public OrganisationDto remove(OrganisationDto organisationDto) {
-        repository.delete(organisationMapper.map(organisationDto));
-        return organisationDto;
-    }
-
     public OrganisationDto removeById(Long id) {
         OrganisationDto organisationDto = organisationMapper.map(repository.findById(id).get());
         repository.delete(organisationMapper.map(organisationDto));
@@ -47,8 +41,8 @@ public class OrganisationService {
     }
 
     public OrganisationDto getByName(String name) {
-        return Optional.of(organisationMapper.map(repository.findByName(name)))
-                .orElseThrow(OrganisationNotFoundException::new);
+        return organisationMapper.map(repository.findByName(name)
+                .orElseThrow(OrganisationNotFoundException::new));
     }
 
     public List<OrganisationDto> getAll() {

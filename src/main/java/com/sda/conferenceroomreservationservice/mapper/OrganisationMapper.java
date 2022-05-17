@@ -17,6 +17,7 @@ public class OrganisationMapper {
                 .rooms(organisation.getRooms().stream()
                         .map(ConferenceRoomMapper::map)
                         .collect(Collectors.toList()))
+                .password(organisation.getPassword())
                 .build();
     }
 
@@ -25,6 +26,7 @@ public class OrganisationMapper {
                 .id(organisationDto.getId())
                 .name(organisationDto.getName())
                 .description(organisationDto.getDescription())
+                .password(organisationDto.getPassword())
                 .build();
     }
 }

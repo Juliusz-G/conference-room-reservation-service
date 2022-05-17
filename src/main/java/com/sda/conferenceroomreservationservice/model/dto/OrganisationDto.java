@@ -16,4 +16,5 @@ public class OrganisationDto {
     private final String name;
     private final String description;
     private final List<ConferenceRoomDto> rooms;
+    private final String password;
 }
