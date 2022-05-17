@@ -49,8 +49,9 @@ public class OrganisationService {
                 .orElseThrow(OrganisationNotFoundException::new));
     }
 
-    public List<OrganisationDto> getAll() {
+    public List<OrganisationDto> getAll(String organisationName) {
         return repository.findAll().stream()
+                .filter(org -> org.getName().equals(organisationName))
                 .map(organisationMapper::map)
                 .collect(Collectors.toList());
     }

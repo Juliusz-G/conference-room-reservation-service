@@ -33,6 +33,6 @@ public class Organisation {
     private List<ConferenceRoom> rooms;
 
     @NotEmpty
-    @Size(min = 6, max = 20, message = "Password must be between 2 - 20 characters long")
+    @Size(min = 6, max = 200, message = "Password must be between 2 - 200 characters long")
     private String password;
 }
