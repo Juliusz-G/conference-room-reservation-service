@@ -14,7 +14,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
+@Entity(name = "organisation")
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"name"})})
 public class Organisation {
 

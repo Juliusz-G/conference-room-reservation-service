@@ -31,8 +31,12 @@ public class ConferenceRoomService {
         conferenceRoomRepository.delete(conferenceRoom);
     }
 
-    public ConferenceRoomDto update(final ConferenceRoom conferenceRoomFromRequest) {
-        final ConferenceRoom conferenceRoomFromDatabase = getConferenceRoomByIdFromDatabase(conferenceRoomFromRequest.getId());
+    public void removeById(final Long conferenceRoomId) {
+        conferenceRoomRepository.deleteById(conferenceRoomId);
+    }
+
+    public ConferenceRoomDto update(final Long conferenceRoomId, final ConferenceRoom conferenceRoomFromRequest) {
+        final ConferenceRoom conferenceRoomFromDatabase = getConferenceRoomByIdFromDatabase(conferenceRoomId);
         conferenceRoomFromDatabase.setName(conferenceRoomFromRequest.getName());
         conferenceRoomFromDatabase.setIdentifier(conferenceRoomFromRequest.getIdentifier());
         conferenceRoomFromDatabase.setLevel(conferenceRoomFromRequest.getLevel());
