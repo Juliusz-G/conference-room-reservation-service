@@ -8,8 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/reservation")
@@ -23,32 +24,32 @@ public class ReservationController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<ReservationDto> create(@RequestBody ReservationDto reservationDto) {
+    public ResponseEntity<ReservationDto> create(@RequestBody ReservationDto reservationDto, Principal principal) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(reservationService.create(reservationDto));
+                .body(reservationService.create(reservationDto, principal.getName()));
     }
 
     @DeleteMapping("/remove/{reservationId}")
-    public ResponseEntity<Void> removeById(@PathVariable("reservationId") final Long reservationId) {
-        reservationService.removeById(reservationId);
+    public ResponseEntity<Void> removeById(@PathVariable("reservationId") final Long reservationId, Principal principal) {
+        reservationService.removeById(reservationId, principal.getName());
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @PutMapping("/update/{reservationId}")
     public ResponseEntity<ReservationDto> update(@PathVariable final Long reservationId,
-                                                 @RequestBody final Reservation reservation) {
+                                                 @RequestBody final Reservation reservation, Principal principal) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(reservationService.update(reservationId, reservation));
+                .body(reservationService.update(reservationId, reservation, principal.getName()));
     }
 
     @GetMapping("/get/{reservationId}")
-    public ResponseEntity<ReservationDto> getById(@PathVariable Long reservationId) {
+    public ResponseEntity<ReservationDto> getById(@PathVariable Long reservationId, Principal principal) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(reservationService.getById(reservationId));
+                .body(reservationService.getById(reservationId, principal.getName()));
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<ReservationDto>> getAll() {
-        return ResponseEntity.ok(reservationService.getAll());
+    public ResponseEntity<List<ReservationDto>> getAll(Principal principal) {
+        return ResponseEntity.ok(reservationService.getAll(principal.getName()));
     }
 }

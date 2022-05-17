@@ -2,9 +2,11 @@ package com.sda.conferenceroomreservationservice.service;
 
 import com.sda.conferenceroomreservationservice.exception.type.conferenceroom.ConferenceRoomAlreadyExists;
 import com.sda.conferenceroomreservationservice.exception.type.conferenceroom.ConferenceRoomNotFoundException;
+import com.sda.conferenceroomreservationservice.exception.type.organisation.OrganisationNotFoundException;
 import com.sda.conferenceroomreservationservice.mapper.ConferenceRoomMapper;
 import com.sda.conferenceroomreservationservice.model.dto.ConferenceRoomDto;
 import com.sda.conferenceroomreservationservice.model.entity.ConferenceRoom;
+import com.sda.conferenceroomreservationservice.model.entity.Organisation;
 import com.sda.conferenceroomreservationservice.repository.ConferenceRoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +21,8 @@ public class ConferenceRoomService {
 
     private final ConferenceRoomRepository conferenceRoomRepository;
 
-    public ConferenceRoomDto create(final ConferenceRoom conferenceRoom) {
+    public ConferenceRoomDto create(final ConferenceRoom conferenceRoom, String organisationName) {
+        validatePrincipal(conferenceRoom.getOrganisation(), organisationName);
         if (ExistsByName(conferenceRoom.getName()) || ExistsByIdentifier(conferenceRoom.getIdentifier())) {
             throw new ConferenceRoomAlreadyExists();
         } else {
@@ -27,12 +30,14 @@ public class ConferenceRoomService {
         }
     }
 
-    public void remove(final ConferenceRoom conferenceRoom) {
+    public void remove(final ConferenceRoom conferenceRoom, String organisationName) {
+        validatePrincipal(conferenceRoom.getOrganisation(), organisationName);
         conferenceRoomRepository.delete(conferenceRoom);
     }
 
-    public ConferenceRoomDto update(final ConferenceRoom conferenceRoomFromRequest) {
+    public ConferenceRoomDto update(final ConferenceRoom conferenceRoomFromRequest, String organisationName) {
         final ConferenceRoom conferenceRoomFromDatabase = getConferenceRoomByIdFromDatabase(conferenceRoomFromRequest.getId());
+        validatePrincipal(conferenceRoomFromRequest.getOrganisation(), organisationName);
         conferenceRoomFromDatabase.setName(conferenceRoomFromRequest.getName());
         conferenceRoomFromDatabase.setIdentifier(conferenceRoomFromRequest.getIdentifier());
         conferenceRoomFromDatabase.setLevel(conferenceRoomFromRequest.getLevel());
@@ -44,20 +49,24 @@ public class ConferenceRoomService {
         return ConferenceRoomMapper.map(conferenceRoomRepository.save(conferenceRoomFromDatabase));
     }
 
-    public ConferenceRoomDto getById(final Long conferenceRoomId) {
-        return ConferenceRoomMapper.map(getConferenceRoomByIdFromDatabase(conferenceRoomId));
+    public ConferenceRoomDto getById(final Long conferenceRoomId, String organisationName) {
+        ConferenceRoom conferenceRoom = getConferenceRoomByIdFromDatabase(conferenceRoomId);
+        validatePrincipal(conferenceRoom.getOrganisation(), organisationName);
+        return ConferenceRoomMapper.map(conferenceRoom);
     }
 
-    public List<ConferenceRoomDto> getAll() {
+    public List<ConferenceRoomDto> getAll(String organisationName) {
         return conferenceRoomRepository.findAll()
                 .stream()
+                .filter(c -> c.getOrganisation().getName().equals(organisationName))
                 .map(ConferenceRoomMapper::map)
                 .collect(Collectors.toList());
     }
 
-    public List<ConferenceRoomDto> getAllByOrganisationId(final Long organisationId) {
+    public List<ConferenceRoomDto> getAllByOrganisationId(final Long organisationId, String organisationName) {
         return conferenceRoomRepository.findAllByOrganisationId(organisationId)
                 .stream()
+                .filter(c -> c.getOrganisation().getName().equals(organisationName))
                 .map(ConferenceRoomMapper::map)
                 .collect(Collectors.toList());
     }
@@ -73,5 +82,11 @@ public class ConferenceRoomService {
 
     private boolean ExistsByIdentifier(final String conferenceRoomName) {
         return conferenceRoomRepository.existsByIdentifier(conferenceRoomName);
+    }
+
+    private void validatePrincipal(Organisation organisation, String name) {
+        if (!organisation.getName().equals(name)) {
+            throw new OrganisationNotFoundException();
+        }
     }
 }
