@@ -19,8 +19,6 @@ public class OrganisationService {
 
     private final OrganisationRepository organisationRepository;
 
-    // Create
-
     public OrganisationDto create(final Organisation organisation) {
         if (organisationRepository.existsByName(organisation.getName())) {
             throw new OrganisationAlreadyExists();
@@ -28,8 +26,6 @@ public class OrganisationService {
             return OrganisationMapper.map(organisationRepository.save(organisation));
         }
     }
-
-    // Read
 
     public OrganisationDto getById(final Long organisationId) {
         return OrganisationMapper.map(getOrganisationByIdFromDatabase(organisationId));
@@ -47,17 +43,10 @@ public class OrganisationService {
                 .collect(Collectors.toList());
     }
 
-    // Update
-
-//    public OrganisationDto update(final Organisation organisation) {
-//        final Organisation organisationFromDatabase = getOrganisationByIdFromDatabase(organisation.getId());
-//        organisationFromDatabase.setName(organisation.getName());
-//        organisationFromDatabase.setDescription(organisation.getDescription());
-//        organisationFromDatabase.setRooms(organisation.getRooms());
-//        return OrganisationMapper.map(organisationRepository.save(organisationFromDatabase));
-//    }
-
-    public OrganisationDto updateById(final Long organisationId, final Organisation organisation) {
+    public OrganisationDto updateById(
+            final Long organisationId,
+            final Organisation organisation
+    ) {
         final Organisation organisationFromDatabase = getOrganisationByIdFromDatabase(organisationId);
         organisationFromDatabase.setName(organisation.getName());
         organisationFromDatabase.setDescription(organisation.getDescription());
@@ -65,17 +54,9 @@ public class OrganisationService {
         return OrganisationMapper.map(organisationRepository.save(organisationFromDatabase));
     }
 
-    // Delete
-
-//    public void remove(final Organisation organisation) {
-//        organisationRepository.delete(organisation);
-//    }
-
     public void removeById(Long organisationId) {
         organisationRepository.deleteById(organisationId);
     }
-
-    // External
 
     private Organisation getOrganisationByIdFromDatabase(final Long organisationId) {
         final Optional<Organisation> organisationFromDatabase = organisationRepository.findById(organisationId);

@@ -18,15 +18,11 @@ public class ReservationController {
 
     private final ReservationService reservationService;
 
-    // Create
-
     @PostMapping
     public ResponseEntity<ReservationDto> create(@RequestBody @Valid final Reservation reservation) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(reservationService.create(reservation));
     }
-
-    // Read
 
     @GetMapping("/{reservationId}")
     public ResponseEntity<ReservationDto> getById(@PathVariable final Long reservationId) {
@@ -40,14 +36,6 @@ public class ReservationController {
                 .body(reservationService.getAll());
     }
 
-    // Update
-
-//    @PutMapping
-//    public ResponseEntity<ReservationDto> update(@RequestBody @Valid final Reservation reservation) {
-//        return ResponseEntity.status(HttpStatus.CREATED)
-//                .body(reservationService.update(reservation));
-//    }
-
     @PutMapping("/{reservationId}")
     public ResponseEntity<ReservationDto> updateById(
             @RequestBody @Valid final Reservation reservation,
@@ -56,15 +44,6 @@ public class ReservationController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(reservationService.updateById(reservationId, reservation));
     }
-
-    // Delete
-
-//    @DeleteMapping
-//    public ResponseEntity<ReservationDto> remove(@RequestBody @Valid final Reservation reservation) {
-//        reservationService.remove(reservation);
-//        return ResponseEntity.status(HttpStatus.NO_CONTENT)
-//                .build();
-//    }
 
     @DeleteMapping("/{reservationId}")
     public ResponseEntity<ReservationDto> removeById(@PathVariable("reservationId") final Long reservationId) {

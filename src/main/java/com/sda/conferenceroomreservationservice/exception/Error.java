@@ -3,7 +3,6 @@ package com.sda.conferenceroomreservationservice.exception;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,6 +11,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class Error {
+
     private final LocalDateTime timestamp;
     private final int httpCode;
     private final String error;
