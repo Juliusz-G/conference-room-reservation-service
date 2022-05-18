@@ -51,5 +51,4 @@ public class Reservation {
     @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "id")
     private ConferenceRoom conferenceRoom;
-
 }
