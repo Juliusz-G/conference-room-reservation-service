@@ -2,10 +2,13 @@ package com.sda.conferenceroomreservationservice.service;
 
 import com.sda.conferenceroomreservationservice.exception.type.conferenceroom.ConferenceRoomAlreadyExists;
 import com.sda.conferenceroomreservationservice.exception.type.conferenceroom.ConferenceRoomNotFoundException;
+import com.sda.conferenceroomreservationservice.exception.type.organisation.OrganisationNotFoundException;
 import com.sda.conferenceroomreservationservice.mapper.ConferenceRoomMapper;
 import com.sda.conferenceroomreservationservice.model.dto.ConferenceRoomDto;
 import com.sda.conferenceroomreservationservice.model.entity.ConferenceRoom;
+import com.sda.conferenceroomreservationservice.model.entity.Organisation;
 import com.sda.conferenceroomreservationservice.repository.ConferenceRoomRepository;
+import com.sda.conferenceroomreservationservice.repository.OrganisationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +21,14 @@ import java.util.stream.Collectors;
 public class ConferenceRoomService {
 
     private final ConferenceRoomRepository conferenceRoomRepository;
+    private final OrganisationRepository organisationRepository;
+
+    // Create
 
     public ConferenceRoomDto create(final ConferenceRoom conferenceRoom) {
+        Organisation organisation = organisationRepository.findById(conferenceRoom.getOrganisation().getId())
+                .orElseThrow(OrganisationNotFoundException::new);
+        conferenceRoom.setOrganisation(organisation);
         if (ExistsByName(conferenceRoom.getName()) || ExistsByIdentifier(conferenceRoom.getIdentifier())) {
             throw new ConferenceRoomAlreadyExists();
         } else {
@@ -27,22 +36,7 @@ public class ConferenceRoomService {
         }
     }
 
-    public void remove(final ConferenceRoom conferenceRoom) {
-        conferenceRoomRepository.delete(conferenceRoom);
-    }
-
-    public ConferenceRoomDto update(final ConferenceRoom conferenceRoomFromRequest) {
-        final ConferenceRoom conferenceRoomFromDatabase = getConferenceRoomByIdFromDatabase(conferenceRoomFromRequest.getId());
-        conferenceRoomFromDatabase.setName(conferenceRoomFromRequest.getName());
-        conferenceRoomFromDatabase.setIdentifier(conferenceRoomFromRequest.getIdentifier());
-        conferenceRoomFromDatabase.setLevel(conferenceRoomFromRequest.getLevel());
-        conferenceRoomFromDatabase.setAvailability(conferenceRoomFromRequest.getAvailability());
-        conferenceRoomFromDatabase.setNumberOfStandingPlaces(conferenceRoomFromRequest.getNumberOfStandingPlaces());
-        conferenceRoomFromDatabase.setNumberOfSittingPlaces(conferenceRoomFromRequest.getNumberOfSittingPlaces());
-        conferenceRoomFromDatabase.setReservationList(conferenceRoomFromRequest.getReservationList());
-        conferenceRoomFromDatabase.setOrganisation(conferenceRoomFromRequest.getOrganisation());
-        return ConferenceRoomMapper.map(conferenceRoomRepository.save(conferenceRoomFromDatabase));
-    }
+    // Read
 
     public ConferenceRoomDto getById(final Long conferenceRoomId) {
         return ConferenceRoomMapper.map(getConferenceRoomByIdFromDatabase(conferenceRoomId));
@@ -61,6 +55,47 @@ public class ConferenceRoomService {
                 .map(ConferenceRoomMapper::map)
                 .collect(Collectors.toList());
     }
+
+    // Update
+
+//    public ConferenceRoomDto update(final ConferenceRoom conferenceRoomFromRequest) {
+//        final ConferenceRoom conferenceRoomFromDatabase =
+//                getConferenceRoomByIdFromDatabase(conferenceRoomFromRequest.getId());
+//        conferenceRoomFromDatabase.setName(conferenceRoomFromRequest.getName());
+//        conferenceRoomFromDatabase.setIdentifier(conferenceRoomFromRequest.getIdentifier());
+//        conferenceRoomFromDatabase.setLevel(conferenceRoomFromRequest.getLevel());
+//        conferenceRoomFromDatabase.setAvailability(conferenceRoomFromRequest.getAvailability());
+//        conferenceRoomFromDatabase.setNumberOfStandingPlaces(conferenceRoomFromRequest.getNumberOfStandingPlaces());
+//        conferenceRoomFromDatabase.setNumberOfSittingPlaces(conferenceRoomFromRequest.getNumberOfSittingPlaces());
+//        conferenceRoomFromDatabase.setReservationList(conferenceRoomFromRequest.getReservationList());
+//        conferenceRoomFromDatabase.setOrganisation(conferenceRoomFromRequest.getOrganisation());
+//        return ConferenceRoomMapper.map(conferenceRoomRepository.save(conferenceRoomFromDatabase));
+//    }
+
+    public ConferenceRoomDto updateById(final Long conferenceRoomId, final ConferenceRoom conferenceRoomFromRequest) {
+        final ConferenceRoom conferenceRoomFromDatabase = getConferenceRoomByIdFromDatabase(conferenceRoomId);
+        conferenceRoomFromDatabase.setName(conferenceRoomFromRequest.getName());
+        conferenceRoomFromDatabase.setIdentifier(conferenceRoomFromRequest.getIdentifier());
+        conferenceRoomFromDatabase.setLevel(conferenceRoomFromRequest.getLevel());
+        conferenceRoomFromDatabase.setAvailability(conferenceRoomFromRequest.getAvailability());
+        conferenceRoomFromDatabase.setNumberOfStandingPlaces(conferenceRoomFromRequest.getNumberOfStandingPlaces());
+        conferenceRoomFromDatabase.setNumberOfSittingPlaces(conferenceRoomFromRequest.getNumberOfSittingPlaces());
+        conferenceRoomFromDatabase.setReservationList(conferenceRoomFromRequest.getReservationList());
+        conferenceRoomFromDatabase.setOrganisation(conferenceRoomFromRequest.getOrganisation());
+        return ConferenceRoomMapper.map(conferenceRoomRepository.save(conferenceRoomFromDatabase));
+    }
+
+    // Delete
+
+//    public void remove(final ConferenceRoom conferenceRoom) {
+//        conferenceRoomRepository.delete(conferenceRoom);
+//    }
+
+    public void removeById(final Long conferenceRoomId) {
+        conferenceRoomRepository.deleteById(conferenceRoomId);
+    }
+
+    // External
 
     private ConferenceRoom getConferenceRoomByIdFromDatabase(final Long conferenceRoomId) {
         final Optional<ConferenceRoom> conferenceRoomFromDatabase = conferenceRoomRepository.findById(conferenceRoomId);
