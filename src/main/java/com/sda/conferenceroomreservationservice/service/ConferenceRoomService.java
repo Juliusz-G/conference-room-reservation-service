@@ -23,20 +23,16 @@ public class ConferenceRoomService {
     private final ConferenceRoomRepository conferenceRoomRepository;
     private final OrganisationRepository organisationRepository;
 
-    // Create
-
     public ConferenceRoomDto create(final ConferenceRoom conferenceRoom) {
         Organisation organisation = organisationRepository.findById(conferenceRoom.getOrganisation().getId())
                 .orElseThrow(OrganisationNotFoundException::new);
         conferenceRoom.setOrganisation(organisation);
-        if (ExistsByName(conferenceRoom.getName()) || ExistsByIdentifier(conferenceRoom.getIdentifier())) {
+        if (existsByName(conferenceRoom.getName()) || existsByIdentifier(conferenceRoom.getIdentifier())) {
             throw new ConferenceRoomAlreadyExists();
         } else {
             return ConferenceRoomMapper.map(conferenceRoomRepository.save(conferenceRoom));
         }
     }
-
-    // Read
 
     public ConferenceRoomDto getById(final Long conferenceRoomId) {
         return ConferenceRoomMapper.map(getConferenceRoomByIdFromDatabase(conferenceRoomId));
@@ -56,23 +52,10 @@ public class ConferenceRoomService {
                 .collect(Collectors.toList());
     }
 
-    // Update
-
-//    public ConferenceRoomDto update(final ConferenceRoom conferenceRoomFromRequest) {
-//        final ConferenceRoom conferenceRoomFromDatabase =
-//                getConferenceRoomByIdFromDatabase(conferenceRoomFromRequest.getId());
-//        conferenceRoomFromDatabase.setName(conferenceRoomFromRequest.getName());
-//        conferenceRoomFromDatabase.setIdentifier(conferenceRoomFromRequest.getIdentifier());
-//        conferenceRoomFromDatabase.setLevel(conferenceRoomFromRequest.getLevel());
-//        conferenceRoomFromDatabase.setAvailability(conferenceRoomFromRequest.getAvailability());
-//        conferenceRoomFromDatabase.setNumberOfStandingPlaces(conferenceRoomFromRequest.getNumberOfStandingPlaces());
-//        conferenceRoomFromDatabase.setNumberOfSittingPlaces(conferenceRoomFromRequest.getNumberOfSittingPlaces());
-//        conferenceRoomFromDatabase.setReservationList(conferenceRoomFromRequest.getReservationList());
-//        conferenceRoomFromDatabase.setOrganisation(conferenceRoomFromRequest.getOrganisation());
-//        return ConferenceRoomMapper.map(conferenceRoomRepository.save(conferenceRoomFromDatabase));
-//    }
-
-    public ConferenceRoomDto updateById(final Long conferenceRoomId, final ConferenceRoom conferenceRoomFromRequest) {
+    public ConferenceRoomDto updateById(
+            final Long conferenceRoomId,
+            final ConferenceRoom conferenceRoomFromRequest
+    ) {
         final ConferenceRoom conferenceRoomFromDatabase = getConferenceRoomByIdFromDatabase(conferenceRoomId);
         conferenceRoomFromDatabase.setName(conferenceRoomFromRequest.getName());
         conferenceRoomFromDatabase.setIdentifier(conferenceRoomFromRequest.getIdentifier());
@@ -85,28 +68,20 @@ public class ConferenceRoomService {
         return ConferenceRoomMapper.map(conferenceRoomRepository.save(conferenceRoomFromDatabase));
     }
 
-    // Delete
-
-//    public void remove(final ConferenceRoom conferenceRoom) {
-//        conferenceRoomRepository.delete(conferenceRoom);
-//    }
-
     public void removeById(final Long conferenceRoomId) {
         conferenceRoomRepository.deleteById(conferenceRoomId);
     }
-
-    // External
 
     private ConferenceRoom getConferenceRoomByIdFromDatabase(final Long conferenceRoomId) {
         final Optional<ConferenceRoom> conferenceRoomFromDatabase = conferenceRoomRepository.findById(conferenceRoomId);
         return conferenceRoomFromDatabase.orElseThrow(ConferenceRoomNotFoundException::new);
     }
 
-    private boolean ExistsByName(final String conferenceRoomName) {
+    private boolean existsByName(final String conferenceRoomName) {
         return conferenceRoomRepository.existsByName(conferenceRoomName);
     }
 
-    private boolean ExistsByIdentifier(final String conferenceRoomName) {
+    private boolean existsByIdentifier(final String conferenceRoomName) {
         return conferenceRoomRepository.existsByIdentifier(conferenceRoomName);
     }
 }

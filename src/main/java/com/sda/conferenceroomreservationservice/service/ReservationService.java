@@ -1,7 +1,6 @@
 package com.sda.conferenceroomreservationservice.service;
 
 import com.sda.conferenceroomreservationservice.exception.type.conferenceroom.ConferenceRoomNotFoundException;
-import com.sda.conferenceroomreservationservice.exception.type.reservation.ReservationCreationException;
 import com.sda.conferenceroomreservationservice.exception.type.reservation.ReservationNotFoundException;
 import com.sda.conferenceroomreservationservice.exception.type.reservation.ReservationPeriodNotFree;
 import com.sda.conferenceroomreservationservice.mapper.ReservationMapper;
@@ -25,27 +24,13 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final ConferenceRoomRepository conferenceRoomRepository;
 
-    // Create
-
     public ReservationDto create(final Reservation reservation) {
-        // TODO: Validation
-//        ConferenceRoom conferenceRoom = conferenceRoomRepository.findById(reservation.getConferenceRoom().getId())
-//                .orElseThrow(ConferenceRoomNotFoundException::new);
-//        reservation.setConferenceRoom(conferenceRoom);
-//        final List<Reservation> reservationsForConferenceRoom = getReservationsForConferenceRoom(reservation.getConferenceRoom());
-//        boolean isThereFreePeriod = reservationsForConferenceRoom.stream()
-//                .noneMatch(r -> isPeriodFree(reservation.getStartDateTime(), reservation.getEndDateTime(), r));
-//        if (isThereFreePeriod) {
-//            return ReservationMapper.map(reservationRepository.save(reservation));
-//        }
-//        throw new ReservationCreationException();
-        ConferenceRoom conferenceRoom = conferenceRoomRepository.findById(reservation.getConferenceRoom().getId())
+        ConferenceRoom conferenceRoom = conferenceRoomRepository.findByIdAndAvailabilityEquals(reservation.getConferenceRoom().getId(), true)
                 .orElseThrow(ConferenceRoomNotFoundException::new);
         reservation.setConferenceRoom(conferenceRoom);
+        getReservationsForConferenceRoom(conferenceRoom).forEach(r -> isPeriodFree(reservation.getStartDateTime(), reservation.getEndDateTime(), r));
         return ReservationMapper.map(reservationRepository.save(reservation));
     }
-
-    // Read
 
     public ReservationDto getById(final Long reservationId) {
         return ReservationMapper.map(getReservationByIdFromDatabase(reservationId));
@@ -57,17 +42,10 @@ public class ReservationService {
                 .collect(Collectors.toList());
     }
 
-    // Update
-
-//    public ReservationDto update(final Reservation reservation) {
-//        final Reservation reservationFromDatabase = getReservationByIdFromDatabase(reservation.getId());
-//        reservationFromDatabase.setStartDateTime(reservation.getStartDateTime());
-//        reservationFromDatabase.setEndDateTime(reservation.getEndDateTime());
-//        reservationFromDatabase.setConferenceRoom(reservation.getConferenceRoom());
-//        return create(reservationFromDatabase);
-//    }
-
-    public ReservationDto updateById(final Long reservationId, final Reservation reservation) {
+    public ReservationDto updateById(
+            final Long reservationId,
+            final Reservation reservation
+    ) {
         final Reservation reservationFromDatabase = getReservationByIdFromDatabase(reservationId);
         reservationFromDatabase.setStartDateTime(reservation.getStartDateTime());
         reservationFromDatabase.setEndDateTime(reservation.getEndDateTime());
@@ -75,17 +53,9 @@ public class ReservationService {
         return create(reservationFromDatabase);
     }
 
-    // Delete
-
-//    public void remove(final Reservation reservation) {
-//        reservationRepository.delete(reservation);
-//    }
-
     public void removeById(final Long reservationId) {
         reservationRepository.deleteById(reservationId);
     }
-
-    // External
 
     private Reservation getReservationByIdFromDatabase(final Long reservationId) {
         final Optional<Reservation> reservationFromDb = reservationRepository.findById(reservationId);
@@ -96,19 +66,36 @@ public class ReservationService {
         return reservationRepository.findReservationsByConferenceRoom(conferenceRoom);
     }
 
-    private boolean isPeriodFree(final LocalDateTime startOfReservation, final LocalDateTime endOfReservation, final Reservation reservation) {
-        if (isStartDateTimeFree(startOfReservation, reservation) && isEndDateTimeFree(endOfReservation, reservation)) {
-            return true;
-        } else {
+    private void isPeriodFree(
+            final LocalDateTime startOfReservation,
+            final LocalDateTime endOfReservation,
+            final Reservation reservation
+    ) {
+        if (isStartDateTimeNotFree(startOfReservation, reservation) ||
+                isEndDateTimeNotFree(endOfReservation, reservation)) {
             throw new ReservationPeriodNotFree();
         }
     }
 
-    private boolean isStartDateTimeFree(final LocalDateTime startOfReservation, final Reservation reservation) {
-        return startOfReservation.isAfter(reservation.getStartDateTime()) && startOfReservation.isBefore(reservation.getEndDateTime());
+    private boolean isStartDateTimeNotFree(
+            final LocalDateTime startOfReservation,
+            final Reservation reservation
+    ) {
+        return (startOfReservation.isAfter(reservation.getStartDateTime()) ||
+                startOfReservation.isEqual(reservation.getStartDateTime())
+        ) && (startOfReservation.isBefore(reservation.getEndDateTime()) ||
+                startOfReservation.isEqual(reservation.getEndDateTime())
+        );
     }
 
-    private boolean isEndDateTimeFree(final LocalDateTime endOfReservation, final Reservation reservation) {
-        return endOfReservation.isAfter(reservation.getStartDateTime()) && endOfReservation.isBefore(reservation.getEndDateTime());
+    private boolean isEndDateTimeNotFree(
+            final LocalDateTime endOfReservation,
+            final Reservation reservation
+    ) {
+        return (endOfReservation.isAfter(reservation.getStartDateTime()) ||
+                endOfReservation.isEqual(reservation.getStartDateTime())
+        ) && (endOfReservation.isBefore(reservation.getEndDateTime()) ||
+                endOfReservation.isEqual(reservation.getEndDateTime())
+        );
     }
 }
