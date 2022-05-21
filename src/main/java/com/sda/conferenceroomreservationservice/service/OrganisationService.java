@@ -32,11 +32,6 @@ public class OrganisationService {
         return OrganisationMapper.map(getOrganisationByIdFromDatabase(organisationId));
     }
 
-//    public OrganisationResponse getByName(final String organisationName) {
-//        return OrganisationMapper.map(organisationRepository.findByName(organisationName))
-//                .orElseThrow(OrganisationNotFoundException::new);
-//    }
-
     public List<OrganisationResponse> getAll() {
         return organisationRepository.findAll()
                 .stream()
