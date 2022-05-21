@@ -1,7 +1,7 @@
 package com.sda.conferenceroomreservationservice.controller;
 
-import com.sda.conferenceroomreservationservice.model.dto.OrganisationDto;
-import com.sda.conferenceroomreservationservice.model.entity.Organisation;
+import com.sda.conferenceroomreservationservice.model.request.OrganisationRequest;
+import com.sda.conferenceroomreservationservice.model.response.OrganisationResponse;
 import com.sda.conferenceroomreservationservice.service.OrganisationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,40 +19,40 @@ public class OrganisationController {
     private final OrganisationService organisationService;
 
     @PostMapping
-    public ResponseEntity<OrganisationDto> create(@RequestBody @Valid final Organisation organisation) {
+    public ResponseEntity<OrganisationResponse> create(@RequestBody @Valid final OrganisationRequest organisationRequest) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(organisationService.create(organisation));
+                .body(organisationService.create(organisationRequest));
     }
 
     @GetMapping("/{organisationId}")
-    public ResponseEntity<OrganisationDto> getById(@PathVariable final Long organisationId) {
+    public ResponseEntity<OrganisationResponse> getById(@PathVariable final Long organisationId) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(organisationService.getById(organisationId));
     }
 
-    @GetMapping("/{organisationName}")
-    public ResponseEntity<OrganisationDto> getByName(@PathVariable final String organisationName) {
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(organisationService.getByName(organisationName));
-    }
+//    @GetMapping("/{organisationName}")
+//    public ResponseEntity<OrganisationDto> getByName(@PathVariable final String organisationName) {
+//        return ResponseEntity.status(HttpStatus.OK)
+//                .body(organisationService.getByName(organisationName));
+//    }
 
     @GetMapping
-    public ResponseEntity<List<OrganisationDto>> getAll() {
+    public ResponseEntity<List<OrganisationResponse>> getAll() {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(organisationService.getAll());
     }
 
     @PutMapping("/{organisationId}")
-    public ResponseEntity<OrganisationDto> updateById(
+    public ResponseEntity<OrganisationResponse> updateById(
             @PathVariable final Long organisationId,
-            @RequestBody @Valid final Organisation organisation
+            @RequestBody @Valid final OrganisationRequest organisationRequest
     ) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(organisationService.updateById(organisationId, organisation));
+                .body(organisationService.updateById(organisationId, organisationRequest));
     }
 
     @DeleteMapping("/{organisationId}")
-    public ResponseEntity<OrganisationDto> remove(@PathVariable final Long organisationId) {
+    public ResponseEntity<Void> remove(@PathVariable final Long organisationId) {
         organisationService.removeById(organisationId);
         return ResponseEntity.noContent()
                 .build();

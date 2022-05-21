@@ -1,20 +1,18 @@
-package com.sda.conferenceroomreservationservice.model.dto;
+package com.sda.conferenceroomreservationservice.model.response;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Builder
 @RequiredArgsConstructor
-public class OrganisationDto {
+public class OrganisationResponse {
 
     private final Long id;
     private final String name;
     private final String description;
-    @Builder.Default
-    private final List<ConferenceRoomDto> rooms = new ArrayList<>();
+    private final List<String> conferenceRooms;
 }

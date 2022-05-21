@@ -4,9 +4,10 @@ import com.sda.conferenceroomreservationservice.exception.type.conferenceroom.Co
 import com.sda.conferenceroomreservationservice.exception.type.conferenceroom.ConferenceRoomNotFoundException;
 import com.sda.conferenceroomreservationservice.exception.type.organisation.OrganisationNotFoundException;
 import com.sda.conferenceroomreservationservice.mapper.ConferenceRoomMapper;
-import com.sda.conferenceroomreservationservice.model.dto.ConferenceRoomDto;
 import com.sda.conferenceroomreservationservice.model.entity.ConferenceRoom;
 import com.sda.conferenceroomreservationservice.model.entity.Organisation;
+import com.sda.conferenceroomreservationservice.model.request.ConferenceRoomRequest;
+import com.sda.conferenceroomreservationservice.model.response.ConferenceRoomResponse;
 import com.sda.conferenceroomreservationservice.repository.ConferenceRoomRepository;
 import com.sda.conferenceroomreservationservice.repository.OrganisationRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,65 +24,60 @@ public class ConferenceRoomService {
     private final ConferenceRoomRepository conferenceRoomRepository;
     private final OrganisationRepository organisationRepository;
 
-    public ConferenceRoomDto create(final ConferenceRoom conferenceRoom) {
-        Organisation organisation = organisationRepository.findById(conferenceRoom.getOrganisation().getId())
-                .orElseThrow(OrganisationNotFoundException::new);
-        conferenceRoom.setOrganisation(organisation);
-        if (existsByName(conferenceRoom.getName()) || existsByIdentifier(conferenceRoom.getIdentifier())) {
+    public ConferenceRoomResponse create(final ConferenceRoomRequest conferenceRoomRequest) {
+        ConferenceRoom conferenceRoom = ConferenceRoomMapper.map(conferenceRoomRequest);
+        conferenceRoomRepository.findByName(conferenceRoom.getName()).ifPresent(room -> {
             throw new ConferenceRoomAlreadyExists();
-        } else {
-            return ConferenceRoomMapper.map(conferenceRoomRepository.save(conferenceRoom));
-        }
+        });
+        Organisation organisation = organisationRepository.findById(conferenceRoomRequest.getOrganisationId())
+                .orElseThrow(() -> {
+                    throw new OrganisationNotFoundException();
+                });
+        conferenceRoom.setOrganisation(organisation);
+        return ConferenceRoomMapper.map(conferenceRoomRepository.save(conferenceRoom));
+
     }
 
-    public ConferenceRoomDto getById(final Long conferenceRoomId) {
+    public ConferenceRoomResponse getById(final Long conferenceRoomId) {
         return ConferenceRoomMapper.map(getConferenceRoomByIdFromDatabase(conferenceRoomId));
     }
 
-    public List<ConferenceRoomDto> getAll() {
+    public List<ConferenceRoomResponse> getAll() {
         return conferenceRoomRepository.findAll()
                 .stream()
                 .map(ConferenceRoomMapper::map)
                 .collect(Collectors.toList());
     }
 
-    public List<ConferenceRoomDto> getAllByOrganisationId(final Long organisationId) {
+    public List<ConferenceRoomResponse> getAllByOrganisationId(final Long organisationId) {
         return conferenceRoomRepository.findAllByOrganisationId(organisationId)
                 .stream()
                 .map(ConferenceRoomMapper::map)
                 .collect(Collectors.toList());
     }
 
-    public ConferenceRoomDto updateById(
+    public ConferenceRoomResponse updateById(
             final Long conferenceRoomId,
-            final ConferenceRoom conferenceRoomFromRequest
+            final ConferenceRoomRequest conferenceRoomRequest
     ) {
         final ConferenceRoom conferenceRoomFromDatabase = getConferenceRoomByIdFromDatabase(conferenceRoomId);
-        conferenceRoomFromDatabase.setName(conferenceRoomFromRequest.getName());
-        conferenceRoomFromDatabase.setIdentifier(conferenceRoomFromRequest.getIdentifier());
-        conferenceRoomFromDatabase.setLevel(conferenceRoomFromRequest.getLevel());
-        conferenceRoomFromDatabase.setAvailability(conferenceRoomFromRequest.getAvailability());
-        conferenceRoomFromDatabase.setNumberOfStandingPlaces(conferenceRoomFromRequest.getNumberOfStandingPlaces());
-        conferenceRoomFromDatabase.setNumberOfSittingPlaces(conferenceRoomFromRequest.getNumberOfSittingPlaces());
-        conferenceRoomFromDatabase.setReservationList(conferenceRoomFromRequest.getReservationList());
-        conferenceRoomFromDatabase.setOrganisation(conferenceRoomFromRequest.getOrganisation());
+
+        conferenceRoomFromDatabase.setName(conferenceRoomRequest.getConferenceRoomName());
+        conferenceRoomFromDatabase.setIdentifier(conferenceRoomRequest.getIdentifier());
+        conferenceRoomFromDatabase.setLevel(conferenceRoomRequest.getLevel());
+        conferenceRoomFromDatabase.setAvailability(conferenceRoomRequest.getAvailability());
+        conferenceRoomFromDatabase.setNumberOfStandingPlaces(conferenceRoomRequest.getNumberOfStandingPlaces());
+        conferenceRoomFromDatabase.setNumberOfSittingPlaces(conferenceRoomRequest.getNumberOfSittingPlaces());
         return ConferenceRoomMapper.map(conferenceRoomRepository.save(conferenceRoomFromDatabase));
     }
 
     public void removeById(final Long conferenceRoomId) {
+        getConferenceRoomByIdFromDatabase(conferenceRoomId);
         conferenceRoomRepository.deleteById(conferenceRoomId);
     }
 
     private ConferenceRoom getConferenceRoomByIdFromDatabase(final Long conferenceRoomId) {
         final Optional<ConferenceRoom> conferenceRoomFromDatabase = conferenceRoomRepository.findById(conferenceRoomId);
         return conferenceRoomFromDatabase.orElseThrow(ConferenceRoomNotFoundException::new);
-    }
-
-    private boolean existsByName(final String conferenceRoomName) {
-        return conferenceRoomRepository.existsByName(conferenceRoomName);
-    }
-
-    private boolean existsByIdentifier(final String conferenceRoomName) {
-        return conferenceRoomRepository.existsByIdentifier(conferenceRoomName);
     }
 }
