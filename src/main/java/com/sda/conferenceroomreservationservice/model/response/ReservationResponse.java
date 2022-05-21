@@ -1,4 +1,4 @@
-package com.sda.conferenceroomreservationservice.model.dto;
+package com.sda.conferenceroomreservationservice.model.response;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -9,10 +9,11 @@ import java.time.LocalDateTime;
 @Getter
 @Builder
 @RequiredArgsConstructor
-public class ReservationDto {
+public class ReservationResponse {
 
     private final Long id;
     private final LocalDateTime startDateTime;
     private final LocalDateTime endDateTime;
-    private final ConferenceRoomDto conferenceRoom;
+    private final String conferenceRoomName;
+    private final String organisationName;
 }

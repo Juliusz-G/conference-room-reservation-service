@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 
 import static javax.persistence.GenerationType.SEQUENCE;
@@ -72,5 +73,6 @@ public class Organisation {
             mappedBy = "organisation",
             cascade = CascadeType.REMOVE
     )
-    private List<ConferenceRoom> rooms;
+    @Builder.Default
+    private List<ConferenceRoom> rooms = new ArrayList<>();
 }
