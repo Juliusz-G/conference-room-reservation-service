@@ -11,9 +11,7 @@ import java.util.Optional;
 public interface ConferenceRoomRepository extends JpaRepository<ConferenceRoom, Long> {
     List<ConferenceRoom> findAllByOrganisationId(Long organisationId);
 
-    boolean existsByName(String name);
-
-    boolean existsByIdentifier(String identifier);
-
     Optional<ConferenceRoom> findByIdAndAvailabilityEquals(Long conferenceRoomId, boolean isAvailable);
+
+    Optional<ConferenceRoom> findByName(String name);
 }

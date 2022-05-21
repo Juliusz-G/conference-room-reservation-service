@@ -3,8 +3,9 @@ package com.sda.conferenceroomreservationservice.service;
 import com.sda.conferenceroomreservationservice.exception.type.organisation.OrganisationAlreadyExists;
 import com.sda.conferenceroomreservationservice.exception.type.organisation.OrganisationNotFoundException;
 import com.sda.conferenceroomreservationservice.mapper.OrganisationMapper;
-import com.sda.conferenceroomreservationservice.model.dto.OrganisationDto;
 import com.sda.conferenceroomreservationservice.model.entity.Organisation;
+import com.sda.conferenceroomreservationservice.model.request.OrganisationRequest;
+import com.sda.conferenceroomreservationservice.model.response.OrganisationResponse;
 import com.sda.conferenceroomreservationservice.repository.OrganisationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,42 +20,45 @@ public class OrganisationService {
 
     private final OrganisationRepository organisationRepository;
 
-    public OrganisationDto create(final Organisation organisation) {
-        if (organisationRepository.existsByName(organisation.getName())) {
+    public OrganisationResponse create(final OrganisationRequest organisationRequest) {
+        Organisation organisation = OrganisationMapper.map(organisationRequest);
+        if (organisationRepository.findByName(organisation.getName()).isPresent()) {
             throw new OrganisationAlreadyExists();
-        } else {
-            return OrganisationMapper.map(organisationRepository.save(organisation));
         }
+        return OrganisationMapper.map(organisationRepository.save(organisation));
     }
 
-    public OrganisationDto getById(final Long organisationId) {
+    public OrganisationResponse getById(final Long organisationId) {
         return OrganisationMapper.map(getOrganisationByIdFromDatabase(organisationId));
     }
 
-    public OrganisationDto getByName(final String organisationName) {
-        return Optional.of(OrganisationMapper.map(organisationRepository.findByName(organisationName)))
-                .orElseThrow(OrganisationNotFoundException::new);
-    }
+//    public OrganisationResponse getByName(final String organisationName) {
+//        return OrganisationMapper.map(organisationRepository.findByName(organisationName))
+//                .orElseThrow(OrganisationNotFoundException::new);
+//    }
 
-    public List<OrganisationDto> getAll() {
+    public List<OrganisationResponse> getAll() {
         return organisationRepository.findAll()
                 .stream()
                 .map(OrganisationMapper::map)
                 .collect(Collectors.toList());
     }
 
-    public OrganisationDto updateById(
+    public OrganisationResponse updateById(
             final Long organisationId,
-            final Organisation organisation
+            final OrganisationRequest organisationRequest
     ) {
         final Organisation organisationFromDatabase = getOrganisationByIdFromDatabase(organisationId);
-        organisationFromDatabase.setName(organisation.getName());
-        organisationFromDatabase.setDescription(organisation.getDescription());
-        organisationFromDatabase.setRooms(organisation.getRooms());
+        organisationRepository.findByName(organisationFromDatabase.getName())
+                .orElseThrow(OrganisationAlreadyExists::new);
+
+        organisationFromDatabase.setName(organisationRequest.getName());
+        organisationFromDatabase.setDescription(organisationRequest.getDescription());
         return OrganisationMapper.map(organisationRepository.save(organisationFromDatabase));
     }
 
     public void removeById(Long organisationId) {
+        getOrganisationByIdFromDatabase(organisationId);
         organisationRepository.deleteById(organisationId);
     }
 
