@@ -1,5 +1,6 @@
 package com.sda.conferenceroomreservationservice.model.request;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +10,7 @@ import javax.validation.constraints.Size;
 
 @Getter
 @Builder
-@RequiredArgsConstructor
+@AllArgsConstructor(staticName = "of")
 public class OrganisationRequest {
 
     private static final int MIN_NAME_LENGTH = 2;
