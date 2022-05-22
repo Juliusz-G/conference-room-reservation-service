@@ -3,7 +3,8 @@ package com.sda.conferenceroomreservationservice.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sda.conferenceroomreservationservice.model.request.OrganisationRequest;
-import org.junit.jupiter.api.Test;
+import com.sda.conferenceroomreservationservice.repository.OrganisationRepository;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,6 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class OrganisationControllerIntegrationTest {
 
     @LocalServerPort
@@ -30,14 +32,18 @@ public class OrganisationControllerIntegrationTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    OrganisationRepository organisationRepository;
+
+    @BeforeEach
+    void cleanDB() {
+        organisationRepository.deleteAll();
+    }
+
     @Test
+    @Order(1)
     void addOrganisationFromValidRequestSaveEntityInDatabase() throws Exception {
-        final String organisationName = "Tester";
-        final String organisationDescription = "Test description";
-        final OrganisationRequest organisationRequest = new OrganisationRequest(
-                organisationName,
-                organisationDescription
-        );
+        final OrganisationRequest organisationRequest = OrganisationRequest.of("Tester", "Test description");
 
         mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:" + port + "/organisations")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -53,13 +59,9 @@ public class OrganisationControllerIntegrationTest {
 
 
     @Test
+    @Order(2)
     void getOrganisationByIdShouldReturnOrganisationNotFoundException() throws Exception {
-        final String organisationName = "Tester";
-        final String organisationDescription = "Test description";
-        final OrganisationRequest organisationRequest = new OrganisationRequest(
-                organisationName,
-                organisationDescription
-        );
+        final OrganisationRequest organisationRequest = OrganisationRequest.of("Tester", "Test description");
         final long organisationId = 999L;
 
         mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:" + port + "/organisations")
@@ -75,18 +77,10 @@ public class OrganisationControllerIntegrationTest {
     }
 
     @Test
+    @Order(3)
     void updateOrganisationShouldUpdateEntity() throws Exception {
-        final String organisationName = "Tester";
-        final String organisationDescription = "Test description";
-        final String updateDescription = "Updated description";
-        final OrganisationRequest organisationRequest = new OrganisationRequest(
-                organisationName,
-                organisationDescription
-        );
-        final OrganisationRequest updatedRequest = new OrganisationRequest(
-                organisationName,
-                updateDescription
-        );
+        final OrganisationRequest organisationRequest = OrganisationRequest.of("Tester", "Test description");
+        final OrganisationRequest updatedRequest = OrganisationRequest.of("Tester", "Updated description");
 
         mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:" + port + "/organisations")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -94,13 +88,13 @@ public class OrganisationControllerIntegrationTest {
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful());
 
-        mockMvc.perform(MockMvcRequestBuilders.put("http://localhost:" + port + "/organisations/1")
+        mockMvc.perform(MockMvcRequestBuilders.put("http://localhost:" + port + "/organisations/3")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(updatedRequest)))
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful());
 
-        mockMvc.perform(MockMvcRequestBuilders.get("http://localhost:" + port + "/organisations/1"))
+        mockMvc.perform(MockMvcRequestBuilders.get("http://localhost:" + port + "/organisations/3"))
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("description").value("Updated description"))
@@ -108,20 +102,17 @@ public class OrganisationControllerIntegrationTest {
     }
 
     @Test
+    @Order(4)
     void deleteOrganisationShouldDeleteEntity() throws Exception {
-        final String organisationName = "Tester";
-        final String organisationDescription = "Test description";
-        final long organisationId = 1L;
-        final OrganisationRequest organisationRequest = new OrganisationRequest(
-                organisationName,
-                organisationDescription
-        );
+        final OrganisationRequest organisationRequest = OrganisationRequest.of("Tester", "Test description");
+        final long organisationId = 4L;
 
         mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:" + port + "/organisations")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(organisationRequest)))
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful());
+
 
         mockMvc.perform(MockMvcRequestBuilders.delete("http://localhost:" + port + "/organisations/" + organisationId))
                 .andExpect(status().is2xxSuccessful());

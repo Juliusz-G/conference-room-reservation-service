@@ -60,45 +60,4 @@ class OrganisationServiceTest {
         Assertions.assertThat(resultOrganisationsList).isEmpty();
     }
 
-//    @Test
-//    void addOrganisationWhenNotAlreadyExistingInDatabase() {
-//        final Long organisationId = 0L;
-//        final String organisationName = "Tester";
-//        final String organisationDescription = "Test description";
-//        final List<String> conferenceRooms = List.of("Room 1");
-//        final List<ConferenceRoom> conferenceRoomList = List.of(new ConferenceRoom());
-//
-//        final OrganisationRequest organisationRequest = new OrganisationRequest(
-//                organisationName,
-//                organisationDescription
-//        );
-//
-//        final OrganisationResponse organisationResponse = new OrganisationResponse(
-//                organisationId,
-//                organisationName,
-//                organisationDescription,
-//                conferenceRooms
-//        );
-//
-//        final Organisation organisation = new Organisation(
-//                organisationId,
-//                organisationName,
-//                organisationDescription,
-//                conferenceRoomList
-//        );
-//
-////        try (MockedStatic<OrganisationMapper> mapper = Mockito.mockStatic(OrganisationMapper.class)) {
-////            mapper.when(() -> OrganisationMapper.map(organisation))
-////                    .thenReturn(organisationResponse);
-////            Assertions.assertThat(organisationMapper.map(organisation)).isEqualTo(organisationResponse);
-////        }
-//
-//        Mockito.when(organisationEntity.getRooms())
-//                .thenReturn(conferenceRoomList);
-//
-//
-//        OrganisationResponse result = organisationService.create(organisationRequest);
-//
-//        Assertions.assertThat(result).isEqualTo(organisationResponse);
-//    }
 }
