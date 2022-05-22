@@ -54,7 +54,7 @@ class ReservationControllerIntegrationTest {
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful());
 
-        final ConferenceRoomRequest conferenceRoomRequest = ConferenceRoomRequest.of(1L,"Tester","1.20",1,10,10,true);
+        final ConferenceRoomRequest conferenceRoomRequest = ConferenceRoomRequest.of(1L,"Tester","1.20",1,10,10);
 
         mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:" + port + "/conference-room")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -89,7 +89,7 @@ class ReservationControllerIntegrationTest {
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful());
 
-        final ConferenceRoomRequest conferenceRoomRequest = ConferenceRoomRequest.of(2L,"Tester","1.20",1,10,10,true);
+        final ConferenceRoomRequest conferenceRoomRequest = ConferenceRoomRequest.of(2L,"Tester","1.20",1,10,10);
 
         mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:" + port + "/conference-room")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -124,7 +124,7 @@ class ReservationControllerIntegrationTest {
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful());
 
-        final ConferenceRoomRequest conferenceRoomRequest = ConferenceRoomRequest.of(3L,"Tester","1.20",1,10,10,true);
+        final ConferenceRoomRequest conferenceRoomRequest = ConferenceRoomRequest.of(3L,"Tester","1.20",1,10,10);
 
         mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:" + port + "/conference-room")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -165,7 +165,7 @@ class ReservationControllerIntegrationTest {
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful());
 
-        final ConferenceRoomRequest conferenceRoomRequest = ConferenceRoomRequest.of(4L,"Tester","1.20",1,10,10,true);
+        final ConferenceRoomRequest conferenceRoomRequest = ConferenceRoomRequest.of(4L,"Tester","1.20",1,10,10);
 
         mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:" + port + "/conference-room")
                 .contentType(MediaType.APPLICATION_JSON)

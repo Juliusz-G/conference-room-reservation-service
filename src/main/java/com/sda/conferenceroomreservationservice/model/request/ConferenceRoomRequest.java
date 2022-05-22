@@ -49,5 +49,5 @@ public class ConferenceRoomRequest {
     @Positive(message = "Number of sitting places is not positive")
     private final Integer numberOfSittingPlaces;
 
-    private final Boolean availability;
+    private final Boolean availability = true;
 }
