@@ -58,7 +58,9 @@ public class ReservationService {
         final Reservation reservationFromDatabase = getReservationByIdFromDatabase(reservationId);
         final ConferenceRoom conferenceRoom = conferenceRoomRepository.findById(reservationRequest.getConferenceRoomId())
                 .orElseThrow(ConferenceRoomNotFoundException::new);
-        getReservationsForConferenceRoom(conferenceRoom).forEach(r ->
+        getReservationsForConferenceRoom(conferenceRoom)
+                .stream().filter(r -> !r.getId().equals(reservationId))
+                .forEach(r ->
                 isPeriodFree(
                         reservationRequest.getStartDateTime(),
                         reservationRequest.getEndDateTime(),

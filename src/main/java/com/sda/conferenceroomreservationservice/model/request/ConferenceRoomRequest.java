@@ -1,5 +1,6 @@
 package com.sda.conferenceroomreservationservice.model.request;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -8,7 +9,7 @@ import javax.validation.constraints.*;
 
 @Getter
 @Builder
-@RequiredArgsConstructor
+@RequiredArgsConstructor(staticName = "of")
 public class ConferenceRoomRequest {
 
     private static final int MIN_FLOOR_LEVEL = 0;

@@ -12,7 +12,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/conference-room")
+@RequestMapping("/conference-rooms")
 @RequiredArgsConstructor
 public class ConferenceRoomController {
 
