@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 
 @Getter
 @Builder
-@AllArgsConstructor(staticName = "of")
+@RequiredArgsConstructor(staticName = "of")
 public class OrganisationRequest {
 
     private static final int MIN_NAME_LENGTH = 2;

@@ -9,7 +9,7 @@ import javax.validation.constraints.*;
 
 @Getter
 @Builder
-@AllArgsConstructor(staticName = "of")
+@RequiredArgsConstructor(staticName = "of")
 public class ConferenceRoomRequest {
 
     private static final int MIN_FLOOR_LEVEL = 0;
