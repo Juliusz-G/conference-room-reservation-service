@@ -9,15 +9,30 @@ import org.springframework.stereotype.Component;
 @Component
 public class ConferenceRoomMapper {
 
+//    public static ConferenceRoom map(final ConferenceRoomRequest conferenceRoomRequest) {
+//        final Organisation organisation = Organisation.builder()
+//                .id(conferenceRoomRequest.getOrganisationId())
+//                .build();
+//        return ConferenceRoom.builder()
+//                .name(conferenceRoomRequest.getConferenceRoomName())
+//                .identifier(conferenceRoomRequest.getIdentifier())
+//                .level(conferenceRoomRequest.getLevel())
+//                .availability(conferenceRoomRequest.getAvailability())
+//                .numberOfStandingPlaces(conferenceRoomRequest.getNumberOfStandingPlaces())
+//                .numberOfSittingPlaces(conferenceRoomRequest.getNumberOfSittingPlaces())
+//                .organisation(organisation)
+//                .build();
+//    }
+
     public static ConferenceRoom map(final ConferenceRoomRequest conferenceRoomRequest) {
         final Organisation organisation = Organisation.builder()
                 .id(conferenceRoomRequest.getOrganisationId())
                 .build();
         return ConferenceRoom.builder()
-                .name(conferenceRoomRequest.getConferenceRoomName())
+                .name(conferenceRoomRequest.getName())
                 .identifier(conferenceRoomRequest.getIdentifier())
                 .level(conferenceRoomRequest.getLevel())
-                .availability(conferenceRoomRequest.getAvailability())
+                .availability(true)
                 .numberOfStandingPlaces(conferenceRoomRequest.getNumberOfStandingPlaces())
                 .numberOfSittingPlaces(conferenceRoomRequest.getNumberOfSittingPlaces())
                 .organisation(organisation)

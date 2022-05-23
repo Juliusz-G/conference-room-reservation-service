@@ -17,4 +17,5 @@ public class ReservationRequest {
     private final LocalDateTime startDateTime;
     private final LocalDateTime endDateTime;
     private final Long conferenceRoomId;
+//    private final String conferenceRoomName;
 }

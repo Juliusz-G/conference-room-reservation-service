@@ -1,6 +1,5 @@
 package com.sda.conferenceroomreservationservice.model.request;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +24,7 @@ public class ConferenceRoomRequest {
             max = MAX_NAME_LENGTH,
             message = "Name must be between 2 - 20 characters long"
     )
-    private final String conferenceRoomName;
+    private final String name;
 
     @Pattern(
             regexp = "\\d[.]\\d\\d",
