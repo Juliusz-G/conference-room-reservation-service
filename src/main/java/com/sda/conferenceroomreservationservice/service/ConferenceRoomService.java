@@ -62,7 +62,7 @@ public class ConferenceRoomService {
     ) {
         final ConferenceRoom conferenceRoomFromDatabase = getConferenceRoomByIdFromDatabase(conferenceRoomId);
 
-        conferenceRoomFromDatabase.setName(conferenceRoomRequest.getConferenceRoomName());
+        conferenceRoomFromDatabase.setName(conferenceRoomRequest.getName());
         conferenceRoomFromDatabase.setIdentifier(conferenceRoomRequest.getIdentifier());
         conferenceRoomFromDatabase.setLevel(conferenceRoomRequest.getLevel());
         conferenceRoomFromDatabase.setAvailability(conferenceRoomRequest.getAvailability());
